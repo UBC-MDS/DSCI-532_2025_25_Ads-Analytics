@@ -1,4 +1,4 @@
-# DSCI-532_2025_25_Ads-Analytics
+# The Googleplay Apps - Ads Analytics Dashboard
 
 ## Authors
 
@@ -8,7 +8,7 @@
 - Ismail (Husain) Bhinderwala
 
 
-## Motivation and Purpose
+## Motivation and Purpose of the Project
 
 Advertisement companies face the challenge of sifting through large amounts of app data to determine which apps offer the best potential for advertising based on user engagement, ratings, and other metrics. If we could understand the factors that lead to higher sales and ratings, it may be possible to focus development resources to improve sales outcomes. 
 
