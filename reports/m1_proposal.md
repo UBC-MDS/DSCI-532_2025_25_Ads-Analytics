@@ -37,10 +37,10 @@ Before conducting any analysis, we will perform data wrangling and cleaning to h
 ## Section 3: Research questions and usage scenarios
 
 **Research Question:**
-1. app ranking/downloads based on reviews, by categories
-2. Download to rating ratio
-3. Correlation Between App Features and Downloads
-4. categories based analysis for teens and everyone
+1. How do app rankings and download counts vary based on user reviews across different categories?
+2. What is the relationship between the number of downloads and user ratings for apps?
+3. How do specific app features correlate with the number of downloads?
+4. How do app categories differ in terms of user engagement and popularity among teens versus the general audience?
 
 
 Cameron is a marketing manager at a digital marketing agency, and she needs to optimize ad campaigns for her clients. She wants to explore app performance data in order to identify correlations between app features (like price, size, and genre) and downloads/ratings and compare performance across different app categories.
