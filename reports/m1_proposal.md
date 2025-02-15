@@ -50,3 +50,15 @@ When Cameron logs on to our app analytics dashboard, she will see an overview of
 Based on her findings from using our dashboard, Cameron hypothesizes that teens prefer apps that are both free and lightweight. She decides to refine her future campaigns by prioritizing these types of apps to improve the effectiveness of her ads.
 
 ## Section 4: App sketch & brief description
+<figure>
+  <img src="img/sketch.png" alt="Dashboard Design" width="500">
+  <figcaption>Figure 1: Dashboard showing Google Playstore App Analytics.</figcaption>
+</figure>
+
+The app's landing page offers an intuitive and interactive way for users to explore app performance metrics across different categories, helping businesses and advertisers uncover trends in the Google Play Store. Through dynamic visualizations such as bar charts and density plots, users can analyze key insights, including downloads, ratings, and reviews. These distributions are color-coded based on app type or category, making it easier to interpret the data at a glance.
+
+To refine their analysis, users can apply various filters using a dropdown menu. They can narrow down results by specific categories, number of reviews, install counts, app size, or pricing model (Free vs. Paid). A rotating header at the top of the visualization dynamically updates to display key summary statistics based on the selected filters, giving users a quick snapshot of important metrics.
+
+For deeper insights, users can compare two different app categories side by side to observe differences in performance. Additionally, a ranking table highlights the top apps based on ratings, downloads, and number of reviews, adjusting in real-time according to the user's selected filters.
+
+With its interactive design and data-driven insights, this app empowers businesses and advertisers to make informed decisions, identify trends, and optimize their strategies based on real-world app performance. 🚀
