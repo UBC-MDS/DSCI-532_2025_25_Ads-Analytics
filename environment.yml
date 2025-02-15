@@ -4,4 +4,10 @@ channels:
   - defaults
 dependencies:
   - python=3.11
+  - ipykernel=6.25.0
+  - dash=2.11.0
+  - dash-bootstrap-components=1.7.1
+  - plotly=5.15.0
+  - pandas=1.5.3
+  - numpy=1.24.2
   - pip
