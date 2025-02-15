@@ -51,7 +51,7 @@ Based on her findings from using our dashboard, Cameron hypothesizes that teens 
 
 ## Section 4: App sketch & brief description
 <figure>
-  ![Dashboard](img/sketch.png "App Sketch")
+  ![Dashboard]("img/sketch.png" "App Sketch")
   <figcaption>Figure 1: Dashboard showing Google Playstore App Analytics.</figcaption>
 </figure>
 
