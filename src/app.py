@@ -13,4 +13,4 @@ app.layout = html.Div('I am alive')
 
 # Run the app/dashboard
 if __name__ == '__main__':
-    app.server.run(port= 8001, host='127.0.0.1')
+    app.server.run(port= 8001, host='0.0.0.0')
