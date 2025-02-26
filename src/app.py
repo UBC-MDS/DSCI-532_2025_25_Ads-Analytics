@@ -2,7 +2,7 @@ from dash import Dash, html
 
 
 # Initiatlize the app
-app = Dash()
+app = Dash(__name__)
 server = app.server
 
 # Layout
@@ -12,4 +12,5 @@ app.layout = html.Div('I am alive')
 # ...
 
 # Run the app/dashboard
-app.run()
+if __name__ == '__main__':
+    app.server.run(port= 8001, host='127.0.0.1')
