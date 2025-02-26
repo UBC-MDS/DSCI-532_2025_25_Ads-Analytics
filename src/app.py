@@ -3,6 +3,7 @@ from dash import Dash, html
 
 # Initiatlize the app
 app = Dash(__name__)
+server = app.server
 
 # Layout
 app.layout = html.Div('I am alive')
@@ -12,4 +13,4 @@ app.layout = html.Div('I am alive')
 
 # Run the app/dashboard
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
