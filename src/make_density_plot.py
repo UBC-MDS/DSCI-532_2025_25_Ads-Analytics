@@ -1,6 +1,23 @@
 import altair as alt
 
 def make_density_plot(df, categories):
+    """
+    Creates a density plot for the 'Rating' column in the dataset.
+
+    Parameters:
+    df (pandas.DataFrame): The input dataframe containing app data with a 'Rating' column.
+    categories (list): A list of selected categories for filtering the data. 
+                       If 'All' is included, the data will not be filtered by category.
+
+    Returns:
+    alt.Chart: An Altair chart object representing the density plot for the 'Rating' column.
+    
+    The function filters the dataframe based on the selected categories, and then generates
+    a density plot that visualizes the distribution of 'Rating' in the dataset. If four or fewer
+    categories are selected, the density plot will be grouped by category and each category will 
+    have its own color. If more than four categories are selected, the plot will display the density 
+    for all categories together, with the density area colored in steelblue.
+    """
     if "All" not in categories:
         df = df[df["Category"].isin(categories)]
 
