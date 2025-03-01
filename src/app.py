@@ -139,4 +139,4 @@ def update_charts(selected_types, rating_range, selected_ratings, selected_categ
 
 # Run the app/dashboard
 if __name__ == "__main__":
-    server.run(debug=False)
+    app.run(debug=False)
