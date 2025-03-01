@@ -4,17 +4,17 @@ import dash_vega_components as dvc
 
 import pandas as pd
 
-from install_chart import installs_chart
-from engagement_chart import engagement_chart
-from get_summary_stats import get_summary_stats
-from make_density_plot import make_density_plot
-from make_reviews_histogram import make_reviews_histogram
-from ranking_chart import ranking_chart
+from src.install_chart import installs_chart
+from src.engagement_chart import engagement_chart
+from src.get_summary_stats import get_summary_stats
+from src.make_density_plot import make_density_plot
+from src.make_reviews_histogram import make_reviews_histogram
+from src.ranking_chart import ranking_chart
 
 import altair as alt
 alt.data_transformers.enable("vegafusion")
 
-df = pd.read_csv("../data/preprocessed/sampled_clean_data.csv")
+df = pd.read_csv("data/preprocessed/sampled_clean_data.csv")
 
 def get_dropdown_options(column):
     """
@@ -219,4 +219,4 @@ def update_charts(selected_types, rating_range, selected_ratings, selected_categ
     )
 
 if __name__ == "__main__":
-    server.run(debug=False)
+    app.run(debug=False)
