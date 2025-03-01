@@ -45,7 +45,17 @@ app = Dash(__name__)
 server = app.server
 
 # Layout
-app.layout = html.Div('I am alive')
+app.layout = dbc.Container([
+    dbc.Row(dbc.Col(title)),  # Title at the top
+    
+    dbc.Row([
+        # Left Column (Filters)
+        dbc.Col(global_filters, md=4),
+
+        # Right Column (Chart)
+        dbc.Col(install_chart, md=8)
+    ])
+], fluid=True)
 
 # Server side callbacks/reactivity
 @app.callback(
