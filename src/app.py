@@ -35,7 +35,7 @@ global_filters = dbc.Row([
 ])
 
 install_chart = dbc.Card([
-    dbc.CardHeader("Interactive Altair Chart"),
+    dbc.CardHeader("Installs by Category"),
     dbc.CardBody(dcc.Markdown(id="category-chart", dangerously_allow_html=True)) 
 ])
 
