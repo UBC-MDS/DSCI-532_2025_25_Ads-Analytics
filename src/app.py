@@ -4,6 +4,8 @@ import dash_vega_components as dvc
 import pandas as pd
 from install_chart import installs_chart
 from engagement_chart import engagement_chart
+from ratings_chart import ratings_chart
+from total_reviews_chart import total_reviews_chart
 
 # Loading dataset
 df = pd.read_csv("data/preprocessed/clean_data.csv")
@@ -54,6 +56,16 @@ make_engagement_chart = dvc.Vega(
     spec=engagement_chart(df).to_dict(format="vega")   
 )
 
+ratings_chart = dvc.Vega(
+    id="ratings-chart",
+    spec=ratings_chart(df).to_dict(format="vega")   
+)
+
+total_reviews_chart = dvc.Vega(
+    id="total-reviews-chart",
+    spec=total_reviews_chart(df).to_dict(format="vega")   
+)
+
 # Initiatlize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
@@ -70,7 +82,9 @@ app.layout = dbc.Container([
         dbc.Col([
             dbc.Row([
                 dbc.Col(install_chart, md=6),  
-                dbc.Col(make_engagement_chart, md=6)   
+                dbc.Col(make_engagement_chart, md=6),
+                dbc.Col(ratings_chart, md=6),
+                dbc.Col(total_reviews_chart, md=6)
             ])
         ], md=9)
     ], className="border-top pt-3") 
@@ -80,7 +94,9 @@ app.layout = dbc.Container([
 # Server side callbacks/reactivity
 @app.callback(
     [Output("category-chart", "spec"),
-    Output("engagement-chart", "spec")],
+    Output("engagement-chart", "spec"),
+    Output("ratings-chart", "spec"),
+    Output("total-reviews-chart", "spec")],
     [Input("app-type-filter", "value"),
     Input("rating-slider", "value"),
     Input("content-rating-filter", "value")]
@@ -99,7 +115,7 @@ def update_charts(selected_types, min_rating, selected_ratings):
         (df["Content Rating"].isin(selected_ratings))  
     ]
 
-    return installs_chart(filtered_df).to_dict(format="vega"), engagement_chart(filtered_df).to_dict(format="vega") 
+    return installs_chart(filtered_df).to_dict(format="vega"), engagement_chart(filtered_df).to_dict(format="vega"), ratings_chart(filtered_df).to_dict(format="vega"), total_reviews_chart(filtered_df).to_dict(format="vega")  
 
 # Run the app/dashboard
 if __name__ == "__main__":
