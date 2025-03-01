@@ -2,14 +2,14 @@ from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 import dash_vega_components as dvc
 import pandas as pd
-from install_chart import installs_chart
-from engagement_chart import engagement_chart
-from ratings_chart import ratings_chart
-from total_reviews_chart import total_reviews_chart
+from src.install_chart import installs_chart
+from src.engagement_chart import engagement_chart
+from src.ratings_chart import ratings_chart
+from src.total_reviews_chart import total_reviews_chart
 
-# Loading dataset 
-# Loading dataset 
-df = pd.read_csv("data/preprocessed/clean_data.csv")
+# Loading dataset  
+df = pd.read_csv("data/preprocessed/sampled_clean_data.csv")
+
 
 # **** Global Variables **** #
 title = [html.H1("Google Playstore Apps Ads Analytics", className="text-center mb-3"),
@@ -110,13 +110,17 @@ app.layout = dbc.Container([
         ], md=9)
     ], className="border-top pt-3"),
 
-    dbc.Row(dbc.Col(
+    # Footer
+    dbc.Row(dbc.Col([
+        html.Hr(),
         html.H6('This dashboard helps advertisement companies identify the most promising Google Play Store apps for ad placements by analyzing app metrics such as user engagement and ratings', 
                 className="text-center fw-light mb-4",
                 style={"maxWidth": "60%", "margin": "auto", "whiteSpace": "normal", "wordWrap": "break-word"}
                 ),
-        width=12, className="text-center mt-4"
-    ))
+        html.P("Project by: Quanhua Huang, Yeji Sohn, Lukman Lateef, Ismail (Husain) Bhinderwala", className="text-center fw-light"),
+        html.P(["GitHub Repository: ", html.A("Link to Repo", href="https://github.com/UBC-MDS/DSCI-532_2025_25_Ads-Analytics", target="_blank")], className="text-center"),
+        html.P("Last Updated: March 2025", className="text-center fw-light")
+    ], width=12, className="text-center mt-4"))
 ], fluid=True)
 
 # Server side callbacks/reactivity

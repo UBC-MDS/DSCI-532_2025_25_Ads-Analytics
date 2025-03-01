@@ -8,12 +8,14 @@ def ratings_chart(df):
     Parameters:
         df (pd.DataFrame): The DataFrame containing app data.
 
+
     Returns:
         object of the Altair chart
     """
 
     #df = df.query("Rating >= @min_rating and Rating <= @max_rating")
     average_ratings = df.groupby('Category')['Rating'].mean().reset_index()
+
     #average_ratings['Rating'] = pd.to_numeric(average_ratings['Rating'], errors='coerce')
     min_rating = average_ratings['Rating'].min()
     max_rating = average_ratings['Rating'].max()
@@ -22,6 +24,7 @@ def ratings_chart(df):
         y=alt.Y("Category:N", sort="-x", title="App Category"),  
         x=alt.X("Rating:Q", title="Average Ratings", axis=alt.Axis(format=",.1f", tickCount=6)),
          
+
         color=alt.Color("Category:N", legend=None),
         tooltip=['Category', 'Rating']
     ).properties(
