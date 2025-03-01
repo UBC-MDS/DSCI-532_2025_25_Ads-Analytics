@@ -2,8 +2,8 @@ from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 import dash_vega_components as dvc
 import pandas as pd
-from install_chart import installs_chart
-from engagement_chart import engagement_chart
+from src.install_chart import installs_chart
+from src.engagement_chart import engagement_chart
 
 # Loading dataset
 df = pd.read_csv("../data/preprocessed/clean_data.csv")
