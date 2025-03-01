@@ -26,7 +26,7 @@ def ratings_chart(df):
         tooltip=['Category', 'Rating']
     ).properties(
         title="Average Ratings vs Categories",
-        width=500,
+        width=300,
         height=400
     )
 
