@@ -9,7 +9,11 @@ from engagement_chart import engagement_chart
 df = pd.read_csv("data/preprocessed/clean_data.csv")
 
 # **** Global Variables **** #
-title = html.H1("Google Playstore Apps Ads Analytics", className="text-center")
+title = [html.H1("Google Playstore Apps Ads Analytics", className="text-center mb-3"),
+        html.H6('This dashboard helps advertisement companies identify the most promising Google Play Store apps for ad placements by analyzing app metrics such as user engagement and ratings', 
+                className="text-center fw-light mb-4",
+                style={"maxWidth": "60%", "margin": "auto", "whiteSpace": "normal", "wordWrap": "break-word"}
+                )]
 
 global_filters = [
     dbc.Label("Select App Type:"),
@@ -60,7 +64,8 @@ app.layout = dbc.Container([
     
     dbc.Row([
   
-        dbc.Col(global_filters, md=2),
+        dbc.Col(global_filters, width=2,
+                className="border-end pe-3"),
 
         dbc.Col([
             dbc.Row([
@@ -68,7 +73,7 @@ app.layout = dbc.Container([
                 dbc.Col(make_engagement_chart, md=6)   
             ])
         ], md=9)
-    ])
+    ], className="border-top pt-3") 
 ], fluid=True)
 
 
