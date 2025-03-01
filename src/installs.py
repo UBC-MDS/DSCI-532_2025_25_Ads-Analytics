@@ -25,8 +25,8 @@ def installs_chart(df, selected_type="Free", min_rating=4):
                  alt.Tooltip("Installs:Q", title="Total Installs (K)", format=",.0f")]
     ).properties(
         title="Top 10 App Categories by Installs",
-        width=600,
+        width=500,
         height=400
-    ).interactive()  
+    )
 
     return chart
