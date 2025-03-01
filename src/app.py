@@ -41,7 +41,7 @@ install_chart = dbc.Card([
 
 
 # Initiatlize the app
-app = Dash(__name__)
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
 # Layout
