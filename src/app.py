@@ -5,7 +5,7 @@ import pandas as pd
 from src.install_chart import installs_chart
 from src.engagement_chart import engagement_chart
 
-# Loading dataset
+# Loading dataset 
 df = pd.read_csv("../data/preprocessed/clean_data.csv")
 
 # **** Global Variables **** #
