@@ -48,7 +48,11 @@ server = app.server
 app.layout = html.Div('I am alive')
 
 # Server side callbacks/reactivity
-# ...
+@app.callback(
+    Output("category-chart", "children"),
+    Input("app-type-filter", "value"),
+    Input("rating-slider", "value")
+)
 
 # Run the app/dashboard
 if __name__ == "__main__":
