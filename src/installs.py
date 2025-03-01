@@ -11,20 +11,18 @@ def installs_chart(df, selected_type="Free", min_rating=4):
         min_rating (float): Minimum rating to filter apps.
 
     Returns:
-        dict: JSON object of the Altair chart in Vega format.
+        object of the Altair chart
     """
-    filtered_df = df[(df["Type"] == selected_type) & (df["Rating"] >= min_rating)]
-
-    # Aggregate installs by category and get the top 10
-    top_categories = filtered_df.groupby("Category")["Installs"].sum().reset_index()
+    top_categories = df.groupby("Category")["Installs"].sum().reset_index()
+    top_categories["Installs"] = top_categories["Installs"] / 1000  
     top_categories = top_categories.sort_values(by="Installs", ascending=False).head(10)
 
     chart = alt.Chart(top_categories).mark_bar().encode(
-        x=alt.X("Category:N", sort="-y", title="App Category"),
-        y=alt.Y("Installs:Q", title="Total Installs"),
+        y=alt.Y("Category:N", sort="-x", title="App Category"),  
+        x=alt.X("Installs:Q", title="Total Installs (Thousands)", axis=alt.Axis(format=",.0f")), 
         color=alt.Color("Category:N", legend=None),
         tooltip=[alt.Tooltip("Category:N", title="App Category"),
-                 alt.Tooltip("Installs:Q", title="Total Installs")]
+                 alt.Tooltip("Installs:Q", title="Total Installs (K)", format=",.0f")]
     ).properties(
         title="Top 10 App Categories by Installs",
         width=600,

@@ -26,7 +26,16 @@ global_filters = [
             marks={i: str(i) for i in range(1, 6)},
             value=4,
             updatemode='drag'
-        )
+        ),
+    html.Br(),
+
+    dbc.Label("Select Content Rating:"),
+    dcc.Dropdown(
+        id="content-rating-filter",
+        options=[{"label": rating, "value": rating} for rating in sorted(df["Content Rating"].dropna().unique())],
+        value=["Everyone"], 
+        multi=True
+    )
 
 ]
 
@@ -57,23 +66,25 @@ app.layout = dbc.Container([
 # Server side callbacks/reactivity
 @app.callback(
     Output("category-chart", "spec"),
-    Input("app-type-filter", "value"),
-    Input("rating-slider", "value")
+    [Input("app-type-filter", "value"),
+    Input("rating-slider", "value"),
+    Input("content-rating-filter", "value")]
 )
 
-def update_charts(selected_types, min_rating):
-    # filtered_df = df[(df["Type"] == selected_type) & (df["Rating"] >= min_rating)]
-    # chart_html = installs_chart(filtered_df, selected_type, min_rating)
-    # return chart_html
+def update_charts(selected_types, min_rating, selected_ratings):
 
-    if isinstance(selected_types, str):  
-        selected_types = [selected_types]  # Ensure it's always a list
+    if isinstance(selected_types, str):
+        selected_types = [selected_types]
+    if isinstance(selected_ratings, str):
+        selected_ratings = [selected_ratings]
 
-    # Apply filters
-    filtered_df = df[df["Type"].isin(selected_types) & (df["Rating"] >= min_rating)]
+    filtered_df = df[
+        (df["Type"].isin(selected_types)) &  
+        (df["Rating"] >= min_rating) &  
+        (df["Content Rating"].isin(selected_ratings))  
+    ]
 
-    # Ensure installs_chart() returns a Vega JSON object
-    return installs_chart(filtered_df).to_dict(format="vega")
+    return installs_chart(filtered_df).to_dict(format="vega") 
 
 # Run the app/dashboard
 if __name__ == "__main__":
