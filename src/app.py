@@ -32,14 +32,14 @@ global_filters = [
         maxHeight=200
     ),
 
-    dbc.Label("Minimum Rating:"),
-    dcc.Slider(
+    dbc.Label("Rating Range:"),
+    dcc.RangeSlider(
         id="rating-slider",
         min=1,
         max=5,
         step=0.5,
         marks={i: str(i) for i in range(1, 6)},
-        value=1,
+        value=[1, 5],
         updatemode='drag'
     ),
     html.Br(),
@@ -72,27 +72,35 @@ make_engagement_chart = dvc.Vega(
 )
 
 # Initiatlize the app
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = Dash(__name__, external_stylesheets=[dbc.themes.UNITED])
 server = app.server
+
 
 # Layout
 app.layout = dbc.Container([
-    dbc.Row(dbc.Col(title)), 
-    
     dbc.Row([
-
-        dbc.Col(global_filters, width=2,
-                className="border-end pe-3"),
+        dbc.Col([
+            html.H1("Google Playstore Apps Ads Analytics", className="text-center mb-3"),
+            html.Br(),
+            *global_filters
+        ], width=2, className="border-end pe-3"),
 
         dbc.Col([
             dbc.Row([
                 dbc.Col(install_chart, md=6),  
                 dbc.Col(make_engagement_chart, md=6)   
-            ])
+            ]),
         ], md=9)
-    ], className="border-top pt-3") 
-], fluid=True)
+    ], className="border-top pt-3"),
 
+    dbc.Row(dbc.Col(
+        html.H6('This dashboard helps advertisement companies identify the most promising Google Play Store apps for ad placements by analyzing app metrics such as user engagement and ratings', 
+                className="text-center fw-light mb-4",
+                style={"maxWidth": "60%", "margin": "auto", "whiteSpace": "normal", "wordWrap": "break-word"}
+                ),
+        width=12, className="text-center mt-4"
+    ))
+], fluid=True)
 
 # Server side callbacks/reactivity
 @app.callback(
@@ -105,21 +113,24 @@ app.layout = dbc.Container([
     Input("category-filter", "value")]
 )
 
-def update_charts(selected_types, min_rating, selected_ratings, selected_categories):
+def update_charts(selected_types, rating_range, selected_ratings, selected_categories):
 
     if "All" in selected_types:
         selected_types = df["Type"].unique()
     if "All" in selected_ratings:
         selected_ratings = df["Content Rating"].unique()
 
+    # Ensure 'All' behaves correctly for categories
     if "All" in selected_categories:
         selected_categories = df["Category"].unique()
     elif len(selected_categories) > 4:
         selected_categories = selected_categories[:4]
 
+    min_rating, max_rating = rating_range
+
     filtered_df = df[
         (df["Type"].isin(selected_types)) &  
-        (df["Rating"] >= min_rating) &  
+        (df["Rating"] >= min_rating) & (df["Rating"] <= max_rating) &
         (df["Content Rating"].isin(selected_ratings)) &
         (df["Category"].isin(selected_categories))
     ]
