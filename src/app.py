@@ -14,9 +14,28 @@ from ranking_chart import ranking_chart
 import altair as alt
 alt.data_transformers.enable("vegafusion")
 
-df = pd.read_csv("../data/preprocessed/clean_data.csv")
+df = pd.read_csv("../data/preprocessed/sampled_clean_data.csv")
 
 def get_dropdown_options(column):
+    """
+    Generates a list of options for a dropdown menu based on the unique values in a specified column of the DataFrame.
+
+    Parameters:
+    column (str): The name of the column in the DataFrame for which to generate dropdown options.
+
+    Returns:
+    list: A list of dictionaries, where each dictionary contains 'label' and 'value' keys, 
+          with 'All' as the first option and the unique values of the specified column as subsequent options.
+
+    Example:
+    >>> get_dropdown_options("Category")
+    [
+        {"label": "All", "value": "All"},
+        {"label": "Action", "value": "Action"},
+        {"label": "Adventure", "value": "Adventure"},
+        ...
+    ]
+    """
     unique_values = sorted(df[column].dropna().unique())
     options = [{"label": "All", "value": "All"}] + [{"label": value, "value": value} for value in unique_values]
     return options
@@ -155,7 +174,7 @@ app.layout = dbc.Container([
      Output("category-filter", "value"),
      Output("density-plot", "spec"),
      Output("reviews-histogram", "spec"),
-     Output("ranking-chart", "spec")],  # Add ranking chart to Output list
+     Output("ranking-chart", "spec")],
     [Input("app-type-filter", "value"),
      Input("rating-slider", "value"),
      Input("content-rating-filter", "value"),
@@ -194,9 +213,9 @@ def update_charts(selected_types, rating_range, selected_ratings, selected_categ
         engagement_chart(filtered_df).to_dict(format="vega"),
         summary_data,
         ["All"] if len(selected_categories) == len(df["Category"].unique()) else selected_categories,
-        make_density_plot(filtered_df, selected_categories).to_dict(format="vega"),  # Pass filtered_df
-        make_reviews_histogram(filtered_df, selected_categories).to_dict(format="vega"),  # Pass filtered_df
-        ranking_chart(filtered_df, selected_types[0], min_rating).to_dict(format="vega")  # Return ranking chart spec
+        make_density_plot(filtered_df, selected_categories).to_dict(format="vega"),  
+        make_reviews_histogram(filtered_df, selected_categories).to_dict(format="vega"),  
+        ranking_chart(filtered_df, selected_types[0], min_rating).to_dict(format="vega") 
     )
 
 if __name__ == "__main__":
