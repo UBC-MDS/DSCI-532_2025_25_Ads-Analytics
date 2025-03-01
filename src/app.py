@@ -54,6 +54,11 @@ app.layout = html.Div('I am alive')
     Input("rating-slider", "value")
 )
 
+def update_chart(selected_type, min_rating):
+    filtered_df = df[(df["Type"] == selected_type) & (df["Rating"] >= min_rating)]
+    chart_html = installs_chart(filtered_df, selected_type, min_rating)
+    return chart_html
+
 # Run the app/dashboard
 if __name__ == "__main__":
     app.run(debug=False)
