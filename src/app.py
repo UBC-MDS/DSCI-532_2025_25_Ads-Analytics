@@ -9,6 +9,7 @@ from engagement_chart import engagement_chart
 from get_summary_stats import get_summary_stats
 from make_density_plot import make_density_plot
 from make_reviews_histogram import make_reviews_histogram
+from ranking_chart import ranking_chart
 
 import altair as alt
 alt.data_transformers.enable("vegafusion")
@@ -79,6 +80,11 @@ reviews_histogram = dvc.Vega(
     spec=make_reviews_histogram(df, ["All"]).to_dict(format="vega")
 )
 
+ranking_chart_component = dvc.Vega(
+    id="ranking-chart",
+    spec=ranking_chart(df, selected_type="Free", min_rating=4).to_dict(format="vega")
+)
+
 # Initialize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.UNITED])
 server = app.server
@@ -122,6 +128,10 @@ app.layout = dbc.Container([
                 dbc.Col(reviews_histogram, md=6)
             ]),
 
+            dbc.Row([
+                dbc.Col(ranking_chart_component, md=6)
+            ])
+
         ], md=9)
     ], className="border-top pt-3"),
 
@@ -140,7 +150,8 @@ app.layout = dbc.Container([
      Output("summary-stats-table", "data"),
      Output("category-filter", "value"),
      Output("density-plot", "spec"),
-     Output("reviews-histogram", "spec")],
+     Output("reviews-histogram", "spec"),
+     Output("ranking-chart", "spec")],  # Add ranking chart to Output list
     [Input("app-type-filter", "value"),
      Input("rating-slider", "value"),
      Input("content-rating-filter", "value"),
@@ -174,14 +185,14 @@ def update_charts(selected_types, rating_range, selected_ratings, selected_categ
         {"Metric": "Reviews", "Mean": stats["mean_reviews"], "Min": stats["min_reviews"], "Max": stats["max_reviews"]}
     ]
 
-    # Return updated visualizations and data
     return (
         installs_chart(filtered_df).to_dict(format="vega"),
         engagement_chart(filtered_df).to_dict(format="vega"),
         summary_data,
         ["All"] if len(selected_categories) == len(df["Category"].unique()) else selected_categories,
         make_density_plot(filtered_df, selected_categories).to_dict(format="vega"),  # Pass filtered_df
-        make_reviews_histogram(filtered_df, selected_categories).to_dict(format="vega")  # Pass filtered_df
+        make_reviews_histogram(filtered_df, selected_categories).to_dict(format="vega"),  # Pass filtered_df
+        ranking_chart(filtered_df, selected_types[0], min_rating).to_dict(format="vega")  # Return ranking chart spec
     )
 
 if __name__ == "__main__":
