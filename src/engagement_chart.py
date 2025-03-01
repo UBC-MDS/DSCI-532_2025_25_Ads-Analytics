@@ -1,6 +1,6 @@
 import altair as alt
 
-def reviews_vs_installs_chart(df):
+def engagement_chart(df):
     """
     Generate an Altair bubble chart showing reviews vs. installs.
 
@@ -8,7 +8,7 @@ def reviews_vs_installs_chart(df):
         df (pd.DataFrame): The filtered DataFrame.
 
     Returns:
-        dict: Vega JSON object.
+        altair object
     """
     top_apps = df.sort_values(by="Installs", ascending=False).head(50)
 
@@ -24,4 +24,4 @@ def reviews_vs_installs_chart(df):
         height=400
     ).interactive()
 
-    return chart.to_dict(format="vega")
+    return chart

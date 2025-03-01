@@ -3,6 +3,7 @@ import dash_bootstrap_components as dbc
 import dash_vega_components as dvc
 import pandas as pd
 from installs import installs_chart
+from engagement_chart import engagement_chart
 
 # Loading dataset
 df = pd.read_csv("data/preprocessed/clean_data.csv")
@@ -44,7 +45,10 @@ install_chart = dvc.Vega(
     spec=installs_chart(df).to_dict(format="vega") 
 )
 
-
+make_engagement_chart = dvc.Vega(
+    id="engagement-chart",
+    spec=engagement_chart(df).to_dict(format="vega")   
+)
 
 # Initiatlize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -52,20 +56,26 @@ server = app.server
 
 # Layout
 app.layout = dbc.Container([
-    dbc.Row(dbc.Col(title)),  # Title at the top
+    dbc.Row(dbc.Col(title)), 
     
     dbc.Row([
-        # Left Column (Filters)
+  
         dbc.Col(global_filters, md=2),
 
-        # Right Column (Chart)
-        dbc.Col(install_chart, md=8)
+        dbc.Col([
+            dbc.Row([
+                dbc.Col(install_chart, md=6),  
+                dbc.Col(make_engagement_chart, md=6)   
+            ])
+        ], md=9)
     ])
 ], fluid=True)
 
+
 # Server side callbacks/reactivity
 @app.callback(
-    Output("category-chart", "spec"),
+    [Output("category-chart", "spec"),
+    Output("engagement-chart", "spec")],
     [Input("app-type-filter", "value"),
     Input("rating-slider", "value"),
     Input("content-rating-filter", "value")]
@@ -84,7 +94,7 @@ def update_charts(selected_types, min_rating, selected_ratings):
         (df["Content Rating"].isin(selected_ratings))  
     ]
 
-    return installs_chart(filtered_df).to_dict(format="vega") 
+    return installs_chart(filtered_df).to_dict(format="vega"), engagement_chart(filtered_df).to_dict(format="vega") 
 
 # Run the app/dashboard
 if __name__ == "__main__":
