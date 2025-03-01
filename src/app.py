@@ -2,11 +2,12 @@ from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 import dash_vega_components as dvc
 import pandas as pd
-from src.install_chart import installs_chart
-from src.engagement_chart import engagement_chart
-from src.ratings_chart import ratings_chart
-from src.total_reviews_chart import total_reviews_chart
+from install_chart import installs_chart
+from engagement_chart import engagement_chart
+from ratings_chart import ratings_chart
+from total_reviews_chart import total_reviews_chart
 
+# Loading dataset 
 # Loading dataset 
 df = pd.read_csv("data/preprocessed/clean_data.csv")
 
@@ -86,6 +87,7 @@ make_total_reviews_chart = dvc.Vega(
 # Initiatlize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.UNITED])
 server = app.server
+
 
 
 # Layout
