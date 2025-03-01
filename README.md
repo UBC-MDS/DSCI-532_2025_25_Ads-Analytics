@@ -29,7 +29,7 @@ You can access the deployed dashboard at [this link](https://dsci-532-2025-25-ad
 To give you a quick idea of what the dashboard looks like in action, check out our demo GIF below:  
 
 ### Getting Support  
-If you encounter any issues or need assistance, feel free to [open an issue](#) in the repository.
+If you encounter any issues or need assistance, feel free to [open an issue](https://github.com/UBC-MDS/DSCI-532_2025_25_Ads-Analytics/issues) in the repository.
 
 ---
 
