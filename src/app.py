@@ -2,43 +2,39 @@ from dash import Dash, dcc, html, Input, Output, dash_table
 import dash_bootstrap_components as dbc
 import dash_vega_components as dvc
 import pandas as pd
-from install_chart import installs_chart
-from engagement_chart import engagement_chart
+from src.install_chart import installs_chart
+from src.engagement_chart import engagement_chart
+from src.get_summary_stats import get_summary_stats
 
 # Loading dataset
-df = pd.read_csv("../data/preprocessed/clean_data.csv")
+df = pd.read_csv("data/preprocessed/clean_data.csv")
 
 # Helper function to get options with "All"
 def get_dropdown_options(column):
+    """
+    Generates a list of dropdown options for a given column in the DataFrame, including an option 
+    for selecting 'All' values.
+
+    Args:
+        column (str): The name of the column in the DataFrame for which the dropdown options are to be created.
+
+    Returns:
+        list: A list of dictionaries representing dropdown options. Each dictionary has the following structure:
+            - 'label' (str): The label to display in the dropdown list.
+            - 'value' (str): The value associated with the dropdown option.
+
+        The list includes:
+            - An 'All' option to select all values from the column.
+            - The unique values from the specified column, sorted in ascending order.
+
+    Example:
+        column = 'Category'
+        options = get_dropdown_options(column)
+    """
     unique_values = sorted(df[column].dropna().unique())
     options = [{"label": "All", "value": "All"}] + [{"label": value, "value": value} for value in unique_values]
     return options
 
-# Function to calculate mean, min, max for rating, installs, and reviews
-def get_summary_stats(filtered_df):
-    mean_rating = filtered_df['Rating'].mean()
-    min_rating = filtered_df['Rating'].min()
-    max_rating = filtered_df['Rating'].max()
-
-    mean_installs = filtered_df['Installs'].mean()
-    min_installs = filtered_df['Installs'].min()
-    max_installs = filtered_df['Installs'].max()
-
-    mean_reviews = filtered_df['Reviews'].mean()
-    min_reviews = filtered_df['Reviews'].min()
-    max_reviews = filtered_df['Reviews'].max()
-
-    return {
-        "mean_rating": round(mean_rating, 2),
-        "min_rating": min_rating,
-        "max_rating": max_rating,
-        "mean_installs": round(mean_installs, 0),
-        "min_installs": min_installs,
-        "max_installs": max_installs,
-        "mean_reviews": round(mean_reviews, 0),
-        "min_reviews": min_reviews,
-        "max_reviews": max_reviews,
-    }
 
 # Global Filters
 global_filters = [
@@ -109,7 +105,6 @@ app.layout = dbc.Container([
                 # Table Row - Summary Stats Table
                 dbc.Col(
                     html.Div([
-                        html.H5("Summary Statistics:"),
                         dash_table.DataTable(
                             id='summary-stats-table',
                             columns=[
@@ -157,12 +152,40 @@ app.layout = dbc.Container([
 )
 
 def update_charts(selected_types, rating_range, selected_ratings, selected_categories):
+    """
+    Updates the charts and summary statistics based on the selected filters (app type, rating range, content rating, 
+    and categories).
 
+    Args:
+        selected_types (list): A list of selected app types to filter the data by (e.g., "Free", "Paid").
+        rating_range (list): A list with two elements representing the rating range to filter by [min_rating, max_rating].
+        selected_ratings (list): A list of selected content ratings to filter the data by (e.g., "Everyone", "Mature 17+").
+        selected_categories (list): A list of selected categories to filter the data by (e.g., "Games", "Education").
+
+    Returns:
+        tuple: A tuple containing:
+            - dict: The updated Vega chart specification for the installs chart.
+            - dict: The updated Vega chart specification for the engagement chart.
+            - list: A list of dictionaries containing summary statistics for the filtered data. Each dictionary contains:
+                - 'Metric' (str): The name of the metric (e.g., "Rating", "Installs", "Reviews").
+                - 'Mean' (float): The mean value of the metric.
+                - 'Min' (float): The minimum value of the metric.
+                - 'Max' (float): The maximum value of the metric.
+            - list: A list of selected categories. If all categories are selected, the list will contain ["All"], otherwise it will
+              contain the selected categories.
+
+    Example:
+        selected_types = ["Free"]
+        rating_range = [3.0, 5.0]
+        selected_ratings = ["Everyone"]
+        selected_categories = ["Games", "Education"]
+        
+        result = update_charts(selected_types, rating_range, selected_ratings, selected_categories)
+    """
     if "All" in selected_types:
         selected_types = df["Type"].unique()
     if "All" in selected_ratings:
         selected_ratings = df["Content Rating"].unique()
-
     if "All" in selected_categories:
         selected_categories = df["Category"].unique()
     elif len(selected_categories) > 4:
@@ -176,18 +199,15 @@ def update_charts(selected_types, rating_range, selected_ratings, selected_categ
         (df["Content Rating"].isin(selected_ratings)) &
         (df["Category"].isin(selected_categories))
     ]
-    
-    # Get summary statistics for the filtered data
+
     stats = get_summary_stats(filtered_df)
 
-    # Prepare the data for the summary stats table
     summary_data = [
         {"Metric": "Rating", "Mean": stats["mean_rating"], "Min": stats["min_rating"], "Max": stats["max_rating"]},
         {"Metric": "Installs", "Mean": stats["mean_installs"], "Min": stats["min_installs"], "Max": stats["max_installs"]},
         {"Metric": "Reviews", "Mean": stats["mean_reviews"], "Min": stats["min_reviews"], "Max": stats["max_reviews"]}
     ]
 
-    # Return the updated chart specs, summary statistics, and selected categories
     return (
         installs_chart(filtered_df).to_dict(format="vega"),
         engagement_chart(filtered_df).to_dict(format="vega"),
@@ -197,4 +217,4 @@ def update_charts(selected_types, rating_range, selected_ratings, selected_categ
 
 # Run the app/dashboard
 if __name__ == "__main__":
-    server.run(debug=False)
+    app.run(debug=False)
