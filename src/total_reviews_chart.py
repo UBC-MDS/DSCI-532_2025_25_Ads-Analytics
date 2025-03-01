@@ -7,7 +7,6 @@ def total_reviews_chart(df):
 
     Parameters:
         df (pd.DataFrame): The DataFrame containing app data.
-        min_rating (float): Minimum rating to filter apps.
 
     Returns:
         object of the Altair chart
