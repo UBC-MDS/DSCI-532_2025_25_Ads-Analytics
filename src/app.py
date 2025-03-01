@@ -4,34 +4,47 @@ import pandas as pd
 from installs import installs_chart
 
 # Loading dataset
-df = pd.read_csv("../data/preprocessed/clean_data.csv")
+df = pd.read_csv("data/preprocessed/clean_data.csv")
 
 # **** Global Variables **** #
-title = html.H3("Google Playstore Apps Ads Analytics", className="text-center")
+title = html.H1("Google Playstore Apps Ads Analytics", className="text-center")
 
-global_filters = dbc.Row([
-    dbc.Col([
-        html.Label("Select App Type:"),
-        dcc.RadioItems(
-            id="app-type-filter",
-            options=[{"label": "Free", "value": "Free"}, {"label": "Paid", "value": "Paid"}],
-            value="Free",
-            inline=True
-        )
-    ], width=3),
-
-    dbc.Col([
-        html.Label("Minimum Rating:"),
-        dcc.Slider(
+global_filters = [
+    dbc.Label("Select App Type:"),
+    dcc.Dropdown(id="app-type-filter", options=sorted(df["Type"].dropna().unique()), value = 'Free', multi= True),
+    html.Br(),
+    dbc.Label("Minimum Rating:"),
+    dcc.Slider(
             id="rating-slider",
             min=1,
             max=5,
             step=0.5,
             marks={i: str(i) for i in range(1, 6)},
-            value=4
+            value=4,
+            updatemode='drag'
         )
-    ], width=6)
-])
+
+]
+#     dbc.CardBody([
+#         html.Label("Select App Type:", className="fw-bold"),
+#         dcc.RadioItems(
+#             id="app-type-filter",
+#             options=[{"label": " Free", "value": "Free"}, {"label": " Paid", "value": "Paid"}],
+#             value="Free",
+#             inline=True
+#         ),
+#         html.Br(),
+#         html.Label("Minimum Rating:", className="fw-bold"),
+#         dcc.Slider(
+#             id="rating-slider",
+#             min=1,
+#             max=5,
+#             step=0.5,
+#             marks={i: str(i) for i in range(1, 6)},
+#             value=4
+#         )
+#     ]), className="shadow-sm p-3"
+# )
 
 install_chart = dbc.Card([
     dbc.CardHeader("Installs by Category"),
@@ -49,7 +62,7 @@ app.layout = dbc.Container([
     
     dbc.Row([
         # Left Column (Filters)
-        dbc.Col(global_filters, md=4),
+        dbc.Col(global_filters, md=2),
 
         # Right Column (Chart)
         dbc.Col(install_chart, md=8)

@@ -30,7 +30,7 @@ def installs_chart(df, selected_type="Free", min_rating=4):
         title="Top 10 App Categories by Installs",
         width=600,
         height=400
-    ).add_selection(
+    ).add_params(
         selection
     )
 
