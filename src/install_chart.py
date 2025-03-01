@@ -22,7 +22,7 @@ def installs_chart(df, selected_type="Free", min_rating=4):
         x=alt.X("Installs:Q", title="Total Installs (Thousands)", axis=alt.Axis(format=",.0f")), 
         color=alt.Color("Category:N", legend=None),
         tooltip=[alt.Tooltip("Category:N", title="App Category"),
-                 alt.Tooltip("Installs:Q", title="Total Installs (K)", format=",.0f")]
+                 alt.Tooltip("Installs:Q", title="Total Installs")]
     ).properties(
         title="Top 10 App Categories by Installs",
         width=500,
