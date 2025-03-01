@@ -2,7 +2,7 @@ from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 import dash_vega_components as dvc
 import pandas as pd
-from installs import installs_chart
+from install_chart import installs_chart
 from engagement_chart import engagement_chart
 
 # Loading dataset
