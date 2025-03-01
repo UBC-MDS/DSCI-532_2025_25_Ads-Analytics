@@ -7,9 +7,8 @@ from src.engagement_chart import engagement_chart
 from src.ratings_chart import ratings_chart
 from src.total_reviews_chart import total_reviews_chart
 
-# Loading dataset 
-# Loading dataset 
-df = pd.read_csv("data/preprocessed/clean_data.csv")
+# Loading dataset  
+df = pd.read_csv("data/preprocessed/sampled_clean_data.csv")
 
 # **** Global Variables **** #
 title = [html.H1("Google Playstore Apps Ads Analytics", className="text-center mb-3"),
