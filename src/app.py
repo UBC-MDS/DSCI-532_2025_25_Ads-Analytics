@@ -6,7 +6,7 @@ from src.install_chart import installs_chart
 from src.engagement_chart import engagement_chart
 
 # Loading dataset 
-df = pd.read_csv("../data/preprocessed/clean_data.csv")
+df = pd.read_csv("data/preprocessed/clean_data.csv")
 
 # **** Global Variables **** #
 title = [html.H1("Google Playstore Apps Ads Analytics", className="text-center mb-3"),
