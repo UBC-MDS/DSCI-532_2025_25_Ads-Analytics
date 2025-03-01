@@ -1,7 +1,7 @@
 import altair as alt
 import pandas as pd
 
-def total_reviews_chart(df, min_rating=0):
+def total_reviews_chart(df):
     """
     Generate an interactive Altair histogram chart for the total reviews.
 
@@ -13,17 +13,17 @@ def total_reviews_chart(df, min_rating=0):
         object of the Altair chart
     """
 
-    df = df.query("Rating >= @min_rating and Rating <= @max_rating")
-    average_ratings = df.groupby('Category')['Rating'].mean().reset_index()
+    #df = df.query("Rating >= @min_rating")
+    average_reviews = df.groupby('Category')['Reviews'].mean().reset_index()
     
 
-    chart = alt.Chart(average_ratings).mark_point().encode(
+    chart = alt.Chart(average_reviews).mark_bar().encode(
         y=alt.Y("Category:N", sort="-x", title="App Category"),  
-        x=alt.X("Rating:Q", title="Total Installs (Thousands)", axis=alt.Axis(format=",.0f")), 
+        x=alt.X("Reviews:Q", title="Average Reviews", axis=alt.Axis(format=",.0f")), 
         color=alt.Color("Category:N", legend=None),
-        tooltip=['Category', 'Rating']
+        tooltip=['Category', 'Reviews']
     ).properties(
-        title="Ratings vs Categories",
+        title="Average Reviews vs Categories",
         width=500,
         height=400
     ).interactive()
