@@ -19,7 +19,7 @@ def installs_chart(df, selected_type="Free", min_rating=4):
 
     chart = alt.Chart(top_categories).mark_bar().encode(
         y=alt.Y("Category:N", sort="-x", title="App Category"),  
-        x=alt.X("Installs:Q", title="Total Installs (Thousands)", axis=alt.Axis(format=",.0f")), 
+        x=alt.X("Installs:Q", title="Total Installs"), 
         color=alt.Color("Category:N", legend=None),
         tooltip=[alt.Tooltip("Category:N", title="App Category"),
                  alt.Tooltip("Installs:Q", title="Total Installs")]

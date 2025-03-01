@@ -22,8 +22,8 @@ def engagement_chart(df):
     selection = alt.selection_point(fields=["Category"], bind="legend")
 
     chart = alt.Chart(top_apps).mark_circle().encode(
-        x=alt.X("Reviews:Q", title="Number of Reviews (Thousands)", axis=alt.Axis(format=",.0f")),
-        y=alt.Y("Installs:Q", title="Total Installs (Thousands)", axis=alt.Axis(format=",.0f")),
+        x=alt.X("Reviews:Q", title="Number of Reviews"),
+        y=alt.Y("Installs:Q", title="Total Installs"),
         size=alt.Size("Installs:Q", title="Relative Bubble Size", scale=alt.Scale(range=[10, 500])),  
         color=alt.Color("Category:N", title="Category", legend=alt.Legend(title="App Category")),  
         opacity=alt.condition(selection, alt.value(0.8), alt.value(0.2)), 
