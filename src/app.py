@@ -1,8 +1,11 @@
 from dash import Dash, dcc, html, Input, Output, dash_table
+from dash import Dash, dcc, html, Input, Output, dash_table
 import dash_bootstrap_components as dbc
 import dash_vega_components as dvc
 
+
 import pandas as pd
+
 
 from src.install_chart import installs_chart
 from src.engagement_chart import engagement_chart
@@ -10,12 +13,36 @@ from src.get_summary_stats import get_summary_stats
 from src.make_density_plot import make_density_plot
 from src.make_reviews_histogram import make_reviews_histogram
 from src.ranking_chart import ranking_chart
+from src.get_summary_stats import get_summary_stats
+from src.make_density_plot import make_density_plot
+from src.make_reviews_histogram import make_reviews_histogram
+from src.ranking_chart import ranking_chart
 
 import altair as alt
+alt.data_transformers.enable("vegafusion")
 
 df = pd.read_csv("data/preprocessed/sampled_clean_data.csv")
 
 def get_dropdown_options(column):
+    """
+    Generates a list of options for a dropdown menu based on the unique values in a specified column of the DataFrame.
+
+    Parameters:
+    column (str): The name of the column in the DataFrame for which to generate dropdown options.
+
+    Returns:
+    list: A list of dictionaries, where each dictionary contains 'label' and 'value' keys, 
+          with 'All' as the first option and the unique values of the specified column as subsequent options.
+
+    Example:
+    >>> get_dropdown_options("Category")
+    [
+        {"label": "All", "value": "All"},
+        {"label": "Action", "value": "Action"},
+        {"label": "Adventure", "value": "Adventure"},
+        ...
+    ]
+    """
     """
     Generates a list of options for a dropdown menu based on the unique values in a specified column of the DataFrame.
 
@@ -91,6 +118,9 @@ make_engagement_chart = dvc.Vega(
 density_plot = dvc.Vega(
     id="density-plot",
     spec=make_density_plot(df, ["All"]).to_dict(format="vega")
+density_plot = dvc.Vega(
+    id="density-plot",
+    spec=make_density_plot(df, ["All"]).to_dict(format="vega")
 )
 
 reviews_histogram = dvc.Vega(
@@ -101,8 +131,17 @@ reviews_histogram = dvc.Vega(
 ranking_chart_component = dvc.Vega(
     id="ranking-chart",
     spec=ranking_chart(df, selected_type="Free", min_rating=4).to_dict(format="vega")
+reviews_histogram = dvc.Vega(
+    id="reviews-histogram",
+    spec=make_reviews_histogram(df, ["All"]).to_dict(format="vega")
 )
 
+ranking_chart_component = dvc.Vega(
+    id="ranking-chart",
+    spec=ranking_chart(df, selected_type="Free", min_rating=4).to_dict(format="vega")
+)
+
+# Initialize the app
 # Initialize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.UNITED])
 server = app.server
@@ -137,7 +176,34 @@ app.layout = dbc.Container([
             ]),
 
             dbc.Row([
+                dbc.Col(
+                    html.Div([
+                        dash_table.DataTable(
+                            id='summary-stats-table',
+                            columns=[
+                                {"name": "Metric", "id": "Metric"},
+                                {"name": "Mean", "id": "Mean"},
+                                {"name": "Min", "id": "Min"},
+                                {"name": "Max", "id": "Max"},
+                            ],
+                            style_table={'overflowX': 'auto'},
+                            style_cell={'textAlign': 'center', 'minWidth': '100px', 'width': '150px'},
+                            style_header={'fontWeight': 'bold'},
+                        ),
+                    ], className="ticker-container", style={"maxWidth": "80%", "margin": "auto"})
+                ),
+            ]),
+
+            dbc.Row([
                 dbc.Col(install_chart, md=6),  
+                dbc.Col(make_engagement_chart, md=6)
+            ]),
+
+            dbc.Row([
+                dbc.Col(density_plot, md=6),
+                dbc.Col(reviews_histogram, md=6)
+            ]),
+
                 dbc.Col(make_engagement_chart, md=6)
             ]),
 
@@ -148,7 +214,9 @@ app.layout = dbc.Container([
 
             dbc.Row([
                 dbc.Col(ranking_chart_component, md=6)
+                dbc.Col(ranking_chart_component, md=6)
             ])
+
 
         ], md=9)
     ], className="border-top pt-3"),
@@ -174,12 +242,22 @@ app.layout = dbc.Container([
      Output("density-plot", "spec"),
      Output("reviews-histogram", "spec"),
      Output("ranking-chart", "spec")],
+     Output("engagement-chart", "spec"),
+     Output("summary-stats-table", "data"),
+     Output("category-filter", "value"),
+     Output("density-plot", "spec"),
+     Output("reviews-histogram", "spec"),
+     Output("ranking-chart", "spec")],
     [Input("app-type-filter", "value"),
+     Input("rating-slider", "value"),
+     Input("content-rating-filter", "value"),
+     Input("category-filter", "value")]
      Input("rating-slider", "value"),
      Input("content-rating-filter", "value"),
      Input("category-filter", "value")]
 )
 def update_charts(selected_types, rating_range, selected_ratings, selected_categories):
+    # Apply all filters to the dataset (filtering based on all inputs)
     # Apply all filters to the dataset (filtering based on all inputs)
     if "All" in selected_types:
         selected_types = df["Type"].unique()
@@ -198,6 +276,24 @@ def update_charts(selected_types, rating_range, selected_ratings, selected_categ
         (df["Content Rating"].isin(selected_ratings)) &
         (df["Category"].isin(selected_categories))
     ]
+
+    stats = get_summary_stats(filtered_df)
+
+    summary_data = [
+        {"Metric": "Rating", "Mean": stats["mean_rating"], "Min": stats["min_rating"], "Max": stats["max_rating"]},
+        {"Metric": "Installs", "Mean": stats["mean_installs"], "Min": stats["min_installs"], "Max": stats["max_installs"]},
+        {"Metric": "Reviews", "Mean": stats["mean_reviews"], "Min": stats["min_reviews"], "Max": stats["max_reviews"]}
+    ]
+
+    return (
+        installs_chart(filtered_df).to_dict(format="vega"),
+        engagement_chart(filtered_df).to_dict(format="vega"),
+        summary_data,
+        ["All"] if len(selected_categories) == len(df["Category"].unique()) else selected_categories,
+        make_density_plot(filtered_df, selected_categories).to_dict(format="vega"),  
+        make_reviews_histogram(filtered_df, selected_categories).to_dict(format="vega"),  
+        ranking_chart(filtered_df, selected_types[0], min_rating).to_dict(format="vega") 
+    )
 
     stats = get_summary_stats(filtered_df)
 
