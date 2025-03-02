@@ -51,14 +51,16 @@ If you want to help improve or extend the functionality of this Dashboard, follo
    ```
 
 2. **Install dependencies:**
-   Make sure you have Python installed, then run:
+   Make sure you have Python installed, then create virtual environment:
    ```bash
-   pip install -r requirements.txt
+   conda env create --file environment.yml
+   conda activate ads-analytics
    ```
 
 3. **Run the app locally:**
+   In root project directory,
    ```bash
-   python app.py
+   python -m src.app
    ```
 
    The app will be accessible at `http://127.0.0.1` in your web browser.
