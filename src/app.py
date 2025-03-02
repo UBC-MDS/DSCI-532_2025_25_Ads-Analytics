@@ -4,12 +4,12 @@ import dash_vega_components as dvc
 
 import pandas as pd
 
-from install_chart import installs_chart
-from engagement_chart import engagement_chart
-from get_summary_stats import get_summary_stats
-from make_density_plot import make_density_plot
-from make_reviews_histogram import make_reviews_histogram
-from ranking_chart import ranking_chart
+from src.install_chart import installs_chart
+from src.engagement_chart import engagement_chart
+from src.get_summary_stats import get_summary_stats
+from src.make_density_plot import make_density_plot
+from src.make_reviews_histogram import make_reviews_histogram
+from src.ranking_chart import ranking_chart
 
 import altair as alt
 
