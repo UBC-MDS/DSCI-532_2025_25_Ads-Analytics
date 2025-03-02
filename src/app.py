@@ -12,7 +12,6 @@ from src.make_reviews_histogram import make_reviews_histogram
 from src.ranking_chart import ranking_chart
 
 import altair as alt
-alt.data_transformers.enable("vegafusion")
 
 df = pd.read_csv("data/preprocessed/sampled_clean_data.csv")
 
