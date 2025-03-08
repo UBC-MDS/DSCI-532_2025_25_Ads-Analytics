@@ -13,7 +13,6 @@ def ranking_chart(df, selected_type="Free", min_rating=4):
     Returns:
         object of the Altair chart
     """
-    alt.data_transformers.enable("vegafusion")
     filtered_df = df[(df["Type"] == selected_type) & (df["Rating"] >= min_rating)]
 
     top_apps = filtered_df.groupby("App")["Installs"].sum().reset_index()

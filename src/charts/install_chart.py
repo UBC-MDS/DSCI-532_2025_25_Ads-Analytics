@@ -13,7 +13,6 @@ def installs_chart(df, selected_type="Free", min_rating=4):
     Returns:
         object of the Altair chart
     """
-    alt.data_transformers.enable("vegafusion")
     top_categories = df.groupby("Category")["Installs"].sum().reset_index()
     top_categories["Installs"] = top_categories["Installs"] / 1000  
     top_categories = top_categories.sort_values(by="Installs", ascending=False).head(10)
