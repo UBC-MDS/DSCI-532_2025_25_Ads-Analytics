@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import numpy as np
 
 def clean_and_save_data():
     """
@@ -64,6 +65,19 @@ def clean_and_save_data():
         df['Reviews'] = df['Reviews'].astype(int)
 
         df['Rating'] = df['Rating'].round(1)
+        
+        df['Reviews_log'] = np.log1p(df['Reviews'])
+    
+        df['Installs_log'] = np.log1p(df['Installs'])
+        
+        df['Rating_normalized'] = (df['Rating'] - df['Rating'].min()) / (df['Rating'].max() - df['Rating'].min())
+    
+        df['Reviews_normalized'] = (df['Reviews_log'] - df['Reviews_log'].min()) / (df['Reviews_log'].max() - df['Reviews_log'].min())
+    
+        df['Installs_normalized'] = (df['Installs_log'] - df['Installs_log'].min()) / (df['Installs_log'].max() - df['Installs_log'].min())
+
+        df['popularity_score'] = round((df['Rating_normalized'] + df['Reviews_normalized'] + df['Installs_normalized']) / 3, 5)
+        
 
         output_dir = "../../data/preprocessed"
         os.makedirs(output_dir, exist_ok=True)
