@@ -1,12 +1,12 @@
 # app.py
 from dash import Dash
 import dash_bootstrap_components as dbc
-from src.data_import import load_data
-from src.layout import create_layout
-from src.callbacks import register_callbacks
+from data_import import load_data
+from layout import create_layout
+from callbacks import register_callbacks
 
 # Load the data
-df = load_data("data/preprocessed/sampled_clean_data.csv")
+df = load_data("data/preprocessed/clean_data.csv")
 
 # Initialize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.UNITED])

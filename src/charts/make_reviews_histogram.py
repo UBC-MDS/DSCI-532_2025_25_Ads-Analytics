@@ -17,6 +17,7 @@ def make_reviews_histogram(df, categories):
     four categories are selected, the color of the bars is set to orange. Otherwise, the bars
     are colored by category.
     """
+    alt.data_transformers.enable("vegafusion")
     if "All" not in categories:
         df = df[df["Category"].isin(categories)]
 

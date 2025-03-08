@@ -18,6 +18,7 @@ def make_density_plot(df, categories):
     have its own color. If more than four categories are selected, the plot will display the density 
     for all categories together, with the density area colored in steelblue.
     """
+    alt.data_transformers.enable("vegafusion")
     if "All" not in categories:
         df = df[df["Category"].isin(categories)]
 

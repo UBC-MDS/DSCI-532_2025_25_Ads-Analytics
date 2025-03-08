@@ -2,12 +2,12 @@
 from dash import Input, Output
 import pandas as pd
 
-from src.charts.install_chart import installs_chart
-from src.charts.engagement_chart import engagement_chart
-from src.get_summary_stats import get_summary_stats
-from src.charts.make_density_plot import make_density_plot
-from src.charts.make_reviews_histogram import make_reviews_histogram
-from src.charts.ranking_chart import ranking_chart
+from charts.install_chart import installs_chart
+from charts.engagement_chart import engagement_chart
+from get_summary_stats import get_summary_stats
+from charts.make_density_plot import make_density_plot
+from charts.make_reviews_histogram import make_reviews_histogram
+from charts.ranking_chart import ranking_chart
 
 def register_callbacks(app, df):
     """

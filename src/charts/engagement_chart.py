@@ -10,6 +10,7 @@ def engagement_chart(df):
     Returns:
         dict: Vega JSON object of the Altair chart.
     """
+    alt.data_transformers.enable("vegafusion")
     if df.empty:
         return {"data": [], "mark": "circle", "encoding": {}}
 
