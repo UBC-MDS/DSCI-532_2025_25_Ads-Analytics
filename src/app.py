@@ -6,7 +6,7 @@ from src.layout import create_layout
 from src.callbacks import register_callbacks
 
 # Load the data
-df = load_data("data/preprocessed/sampled_clean_data.csv")
+df = load_data("data/preprocessed/clean_data_score.csv")
 
 # Initialize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.UNITED])
