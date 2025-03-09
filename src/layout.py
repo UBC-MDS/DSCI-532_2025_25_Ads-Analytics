@@ -9,6 +9,7 @@ from src.get_summary_stats import get_summary_stats
 from src.charts.make_density_plot import make_density_plot
 from src.charts.make_reviews_histogram import make_reviews_histogram
 from src.charts.ranking_chart import create_wordcloud 
+from src.charts.make_popularity_score import make_popularity_score
 
 def create_global_filters(df):
     """
@@ -131,13 +132,13 @@ def create_layout(df):
     ],
     className="shadow-sm h-100")
 
-    reviews_histogram = dbc.Card([
-        dbc.CardHeader('Histogram for Number of Reviews', style={'fontWeight': 'bold',
+    popularity_histogram = dbc.Card([
+        dbc.CardHeader('Average Popularity Score by Categories', style={'fontWeight': 'bold',
                                                           "textAlign": "center",}),
         dbc.CardBody(
             dvc.Vega(
-            id="reviews-histogram",
-            spec=make_reviews_histogram(df, ["All"]).to_dict(format="vega"),
+            id="popularity-histogram",
+            spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
             style={"padding": "1rem 4rem 1rem"}
         ))
     ],
@@ -201,7 +202,7 @@ def create_layout(df):
 
                 dbc.Row([
                     dbc.Col(density_plot, md=6),
-                    dbc.Col(reviews_histogram, md=6)
+                    dbc.Col(popularity_histogram, md=6)
                 ]),
 
                 dbc.Row([ 
