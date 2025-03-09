@@ -4,10 +4,19 @@
 - Added missing demo.gif in README.md
 - Splited the large app.py into 3 parts (app.py, layout.py, callbacks.py). Also organized src folder better by moving all charts creation related scripts to charts/
 - Changed the bottom bar chart (Top 10 apps by installs) to word cloud
+- Added a popularity score metric which is calculated by the average of normalized log(installs), log(reviews) and ratings.
+- Filter the processed csv file and generate a new file only containing entries that top ten highest popularity score by category.
+- By default there are ten categories selected, and will display the plot for these ten categories if selecting "All" in the Global Filter.
+- Add a uniform color scheme so the same category will share the same color over all the plots
+- Changed the density plot to box jenkos plot for better visulization to display ratings vs categories
+- Adjust the margin and plot size to make all the plot the same size
+- Replace the number of installs plot with the popularity score plot
 
 ## 2. Parts Not Yet Implemented
 - Performance improvement
     - This will be implemented in Milestone 4, as this will be covered in next week's lecture.
+- Layout Improvement
+    - Could move the legend outside the plot
 
 ## 3. Differences from Proposal/Sketch
 
