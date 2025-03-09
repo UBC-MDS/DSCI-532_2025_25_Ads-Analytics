@@ -73,7 +73,7 @@ def register_callbacks(app, df):
         # Return all updated components, including the word cloud
         return (
             installs_chart(filtered_df).to_dict(format="vega"),
-            engagement_chart(filtered_df).to_dict(format="vega"),
+            engagement_chart(filtered_df, ["All"]).to_dict(format="vega"),
             summary_data,
             ["All"] if len(selected_categories) == len(df["Category"].unique()) else selected_categories,
             make_density_plot(filtered_df, ["All"]).to_dict(format="vega"),  

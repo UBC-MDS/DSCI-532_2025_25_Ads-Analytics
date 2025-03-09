@@ -16,12 +16,12 @@ def create_wordcloud(df, categories):
     if "All" not in categories:
         df = df[df["Category"].isin(categories)]
         
-    top_categories = df.groupby("Category")["Installs"].sum().reset_index()
+    top_categories = df.groupby("App")["Installs"].sum().reset_index()
 
     top_categories = top_categories.sort_values(by="Installs", ascending=False).head(10)
     
     # Create a dictionary for the word cloud where keys are categories and values are install counts
-    wordcloud_data = dict(zip(top_categories["Category"], top_categories["Installs"]))
+    wordcloud_data = dict(zip(top_categories["App"], top_categories["Installs"]))
     
     wordcloud = WordCloud(width=800, height=400, background_color="white")
     wordcloud.generate_from_frequencies(wordcloud_data)
