@@ -13,6 +13,8 @@ dependencies:
   - altair==5.3.*
   - vegafusion>=1.5.0
   - vegafusion-python-embed>=1.5.0
+  - matplotlib>=3.0.0
+  - wordcloud>=1.8.0
   - pip
   - pip:
       - dash-vega-components==0.11.0
