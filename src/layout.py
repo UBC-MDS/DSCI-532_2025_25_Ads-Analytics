@@ -104,7 +104,14 @@ def create_layout(df):
     return dbc.Container([
         dbc.Row([
             dbc.Col([ 
-                html.H1("Google Playstore Apps Ads Analytics", className="text-center mb-3"),
+                html.H1([
+                    html.Span("G", style={"color": "#4285F4", "fontWeight": "bold"}), 
+                    html.Span("o", style={"color": "#EA4335", "fontWeight": "bold"}),
+                    html.Span("o", style={"color": "#FBBC05", "fontWeight": "bold"}), 
+                    html.Span("g", style={"color": "#4285F4", "fontWeight": "bold"}), 
+                    html.Span("l", style={"color": "#34A853", "fontWeight": "bold"}),  
+                    html.Span("e", style={"color": "#EA4335", "fontWeight": "bold"}), 
+                    " Playstore Apps Ads Analytics"], className="text-center mb-3"),
                 html.Br(),
                 *global_filters
             ], width=2, className="border-end pe-3"),
