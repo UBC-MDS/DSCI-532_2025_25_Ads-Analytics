@@ -171,21 +171,21 @@ def create_layout(df):
                 dbc.Row([
                     dbc.Col(
                         dbc.Card([
-                            dbc.CardHeader("Average Rating"),
+                            dbc.CardHeader("Average Rating", style={'fontWeight': 'bold'}),
                             dbc.CardBody(html.H4(id="mean-rating", className="card-text")),
                         ], className="text-center shadow-sm"),
                         md=4
                     ),
                     dbc.Col(
                         dbc.Card([
-                            dbc.CardHeader("Average Reviews"),
+                            dbc.CardHeader("Average Reviews", style={'fontWeight': 'bold'}),
                             dbc.CardBody(html.H4(id="mean-reviews", className="card-text")),
                         ], className="text-center shadow-sm"),
                         md=4
                     ),
                     dbc.Col(
                         dbc.Card([
-                            dbc.CardHeader("Average Installs"),
+                            dbc.CardHeader("Average Installs", style={'fontWeight': 'bold'}),
                             dbc.CardBody(html.H4(id="mean-installs", className="card-text")),
                         ], className="text-center shadow-sm"),
                         md=4
