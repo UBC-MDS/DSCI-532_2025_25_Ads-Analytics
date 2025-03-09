@@ -167,22 +167,27 @@ def create_layout(df):
             dbc.Col([
                 dbc.Row([
                     dbc.Col(
-                        html.Div([
-                            dash_table.DataTable(
-                                id='summary-stats-table',
-                                columns=[
-                                    {"name": "Metric", "id": "Metric"},
-                                    {"name": "Mean", "id": "Mean"},
-                                    {"name": "Min", "id": "Min"},
-                                    {"name": "Max", "id": "Max"},
-                                ],
-                                style_table={'overflowX': 'auto'},
-                                style_cell={'textAlign': 'center', 'minWidth': '100px', 'width': '150px'},
-                                style_header={'fontWeight': 'bold'},
-                            ),
-                        ], className="ticker-container", style={"maxWidth": "80%", "margin": "auto"})
+                        dbc.Card([
+                            dbc.CardHeader("Average Rating"),
+                            dbc.CardBody(html.H4(id="mean-rating", className="card-text")),
+                        ], className="text-center shadow-sm"),
+                        md=4
                     ),
-                ]),
+                    dbc.Col(
+                        dbc.Card([
+                            dbc.CardHeader("Average Reviews"),
+                            dbc.CardBody(html.H4(id="mean-reviews", className="card-text")),
+                        ], className="text-center shadow-sm"),
+                        md=4
+                    ),
+                    dbc.Col(
+                        dbc.Card([
+                            dbc.CardHeader("Average Installs"),
+                            dbc.CardBody(html.H4(id="mean-installs", className="card-text")),
+                        ], className="text-center shadow-sm"),
+                        md=4
+                    ),
+                ], className="mt-3 mb-4", justify="center"),
 
                 dbc.Row([
                     dbc.Col(install_chart, md=6),  
