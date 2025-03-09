@@ -25,13 +25,15 @@ def engagement_chart(df, categories):
         x=alt.X("Reviews:Q", title="Number of Reviews"),
         y=alt.Y("Installs:Q", title="Total Installs"),
         size=alt.Size("Installs:Q", title="Relative Bubble Size", scale=alt.Scale(range=[10, 500])),  
-        color=alt.Color("Category:N", title="Category", legend=alt.Legend(title="App Category")),  
+        color=alt.Color("Category:N", title="Category", #legend=alt.Legend(title="App Category")
+                        ),  
         opacity=alt.condition(selection, alt.value(0.8), alt.value(0.2)), 
         tooltip=["App", "Category", alt.Tooltip("Installs:Q", title="Total Installs"),
                  alt.Tooltip("Reviews:Q", title="Total Reviews"), "Rating"]
     ).properties(
-        title="Reviews vs. Installs for Top Apps",
-        height=300
+        #title="Reviews vs. Installs for Top Apps",
+        height=300,
+        
     ).add_params(
         selection  
     )

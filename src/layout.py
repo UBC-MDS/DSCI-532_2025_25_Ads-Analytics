@@ -93,33 +93,60 @@ def create_layout(df):
             style={"padding": "20px", 
                    "justifyContent": "center",  
                    "alignItems": "center", 
+                   'width': '100%',
+                   'height': '100%' 
                    }
             ))
     ])
 
-    make_engagement_chart = dvc.Vega(
-        id="engagement-chart",
-        spec=engagement_chart(df, ["All"]).to_dict(format="vega"),
-        style={"padding": "1rem 4rem 1rem"}
-    )
+    make_engagement_chart = dbc.Card([
+        dbc.CardHeader('Reviews vs. Installs for Top Apps', style={'fontWeight': 'bold',
+                                                                   "textAlign": "center",}),
+        dbc.CardBody(
+            dvc.Vega(
+            id="engagement-chart",
+            spec=engagement_chart(df, ["All"]).to_dict(format="vega"),
+            style={"padding": "20px", 
+                   "justifyContent": "center",  
+                   "alignItems": "center",
+                   'width': '100%',
+                   'height': '100%' 
+                   }
+            ))
+    ])
 
-    density_plot = dvc.Vega(
-        id="density-plot",
-        spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
-        style={"padding": "1rem 4rem 1rem"}
-    )
+    density_plot = dbc.Card([
+        dbc.CardHeader('Density Plot for Ratings', style={'fontWeight': 'bold',
+                                                          "textAlign": "center",}),
+        dbc.CardBody(
+            dvc.Vega(
+            id="density-plot",
+            spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
+            style={"padding": "1rem 4rem 1rem"}
+        ))
+    ])
 
-    reviews_histogram = dvc.Vega(
-        id="reviews-histogram",
-        spec=make_reviews_histogram(df, ["All"]).to_dict(format="vega"),
-        style={"padding": "1rem 4rem 1rem"}
-    )
+    reviews_histogram = dbc.Card([
+        dbc.CardHeader('Histogram for Number of Reviews', style={'fontWeight': 'bold',
+                                                          "textAlign": "center",}),
+        dbc.CardBody(
+            dvc.Vega(
+            id="reviews-histogram",
+            spec=make_reviews_histogram(df, ["All"]).to_dict(format="vega"),
+            style={"padding": "1rem 4rem 1rem"}
+        ))
+    ])
 
-    wordcloud_component = dcc.Graph(
-        id="wordcloud",
-        figure=create_wordcloud(df, ["All"]),
-        config={"displayModeBar": False}
-    )
+    wordcloud_component = dbc.Card([
+        dbc.CardHeader('Word Cloud of Top Apps', style={'fontWeight': 'bold',
+                                                          "textAlign": "center",}),
+        dbc.CardBody(
+            dcc.Graph(
+            id="wordcloud",
+            figure=create_wordcloud(df, ["All"]),
+            config={"displayModeBar": False}
+        ))
+    ])
 
     return dbc.Container([
         dbc.Row([
@@ -158,12 +185,12 @@ def create_layout(df):
 
                 dbc.Row([
                     dbc.Col(install_chart, md=6),  
-                    dbc.Col(make_engagement_chart, md=3)
+                    dbc.Col(make_engagement_chart, md=6)
                 ]),
 
                 dbc.Row([
                     dbc.Col(density_plot, md=6),
-                    dbc.Col(reviews_histogram, md=3)
+                    dbc.Col(reviews_histogram, md=6)
                 ]),
 
                 dbc.Row([ 
