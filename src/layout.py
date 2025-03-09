@@ -8,7 +8,7 @@ from src.charts.engagement_chart import engagement_chart
 from src.get_summary_stats import get_summary_stats
 from src.charts.make_density_plot import make_density_plot
 from src.charts.make_reviews_histogram import make_reviews_histogram
-from src.charts.ranking_chart import ranking_chart
+from src.charts.ranking_chart import create_wordcloud 
 
 def create_global_filters(df):
     """
@@ -91,14 +91,14 @@ def create_layout(df):
         spec=make_reviews_histogram(df, ["All"]).to_dict(format="vega")
     )
 
-    ranking_chart_component = dvc.Vega(
-        id="ranking-chart",
-        spec=ranking_chart(df, selected_type="Free", min_rating=4).to_dict(format="vega")
+    wordcloud_component = dcc.Graph(  # Replace ranking chart with word cloud
+        id="wordcloud",
+        figure=create_wordcloud(df, ["All"])  # Default to 'All' type
     )
 
     return dbc.Container([
         dbc.Row([
-            dbc.Col([
+            dbc.Col([ 
                 html.H1("Google Playstore Apps Ads Analytics", className="text-center mb-3"),
                 html.Br(),
                 *global_filters
@@ -134,10 +134,9 @@ def create_layout(df):
                     dbc.Col(reviews_histogram, md=6)
                 ]),
 
-                dbc.Row([
-                    dbc.Col(ranking_chart_component, md=6)
+                dbc.Row([  # Update this row to include the word cloud
+                    dbc.Col(wordcloud_component, md=6)
                 ])
-
             ], md=9)
         ], className="border-top pt-3"),
 

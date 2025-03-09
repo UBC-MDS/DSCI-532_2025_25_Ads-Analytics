@@ -7,7 +7,7 @@ from src.charts.engagement_chart import engagement_chart
 from src.get_summary_stats import get_summary_stats
 from src.charts.make_density_plot import make_density_plot
 from src.charts.make_reviews_histogram import make_reviews_histogram
-from src.charts.ranking_chart import ranking_chart
+from src.charts.ranking_chart import create_wordcloud 
 
 def register_callbacks(app, df):
     """
@@ -24,7 +24,7 @@ def register_callbacks(app, df):
          Output("category-filter", "value"),
          Output("density-plot", "spec"),
          Output("reviews-histogram", "spec"),
-         Output("ranking-chart", "spec")],
+         Output("wordcloud", "figure")],  # Add word cloud output here
         [Input("app-type-filter", "value"),
          Input("rating-slider", "value"),
          Input("content-rating-filter", "value"),
@@ -46,7 +46,7 @@ def register_callbacks(app, df):
         filtered_df = df[
             (df["Type"].isin(selected_types)) &  
             (df["Rating"] >= min_rating) & (df["Rating"] <= max_rating) &
-            (df["Content Rating"].isin(selected_ratings)) &
+            (df["Content Rating"].isin(selected_ratings)) & 
             (df["Category"].isin(selected_categories))
         ]
 
@@ -58,12 +58,13 @@ def register_callbacks(app, df):
             {"Metric": "Reviews", "Mean": stats["mean_reviews"], "Min": stats["min_reviews"], "Max": stats["max_reviews"]}
         ]
 
+        # Return all updated components, including the word cloud
         return (
             installs_chart(filtered_df).to_dict(format="vega"),
             engagement_chart(filtered_df).to_dict(format="vega"),
             summary_data,
             ["All"] if len(selected_categories) == len(df["Category"].unique()) else selected_categories,
             make_density_plot(filtered_df, selected_categories).to_dict(format="vega"),  
-            make_reviews_histogram(filtered_df, selected_categories).to_dict(format="vega"),  
-            ranking_chart(filtered_df, selected_types[0], min_rating).to_dict(format="vega") 
+            make_reviews_histogram(filtered_df, selected_categories).to_dict(format="vega"),
+            create_wordcloud(filtered_df, ["All"])  # Create the word cloud based on the selected app type
         )
