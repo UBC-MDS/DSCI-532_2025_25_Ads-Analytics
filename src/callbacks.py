@@ -44,12 +44,17 @@ def register_callbacks(app, df):
             )
     
         # Apply all filters to the dataset (filtering based on all inputs)
+        category_popularity_avg = df.groupby('Category')['popularity_score'].mean().reset_index(name='avg_popularity_score')
+
+        # Sort categories by average popularity_score in descending order and get top 10
+        top_categories = category_popularity_avg.sort_values(by='avg_popularity_score', ascending=False).head(10)['Category'].tolist()
+
         if "All" in selected_types:
             selected_types = df["Type"].unique()
         if "All" in selected_ratings:
             selected_ratings = df["Content Rating"].unique()
         if "All" in selected_categories:
-            selected_categories = df["Category"].unique()
+            selected_categories = top_categories
         elif len(selected_categories) > 4:
             selected_categories = selected_categories[:4]
 
