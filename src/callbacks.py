@@ -8,6 +8,7 @@ from src.get_summary_stats import get_summary_stats
 from src.charts.make_density_plot import make_density_plot
 from src.charts.make_reviews_histogram import make_reviews_histogram
 from src.charts.ranking_chart import create_wordcloud 
+from src.charts.make_popularity_score import make_popularity_score
 
 def register_callbacks(app, df):
     """
@@ -23,7 +24,7 @@ def register_callbacks(app, df):
          Output("summary-stats-table", "data"),
          Output("category-filter", "value"),
          Output("density-plot", "spec"),
-         Output("reviews-histogram", "spec"),
+         Output("popularity-histogram", "spec"),
          Output("wordcloud", "figure")],
         [Input("app-type-filter", "value"),
          Input("rating-slider", "value"),
@@ -77,6 +78,6 @@ def register_callbacks(app, df):
             summary_data,
             ["All"] if len(selected_categories) == len(df["Category"].unique()) else selected_categories,
             make_density_plot(filtered_df, ["All"]).to_dict(format="vega"),  
-            make_reviews_histogram(filtered_df, selected_categories).to_dict(format="vega"),
+            make_popularity_score(filtered_df, ["All"]).to_dict(format="vega"),
             create_wordcloud(filtered_df, ["All"]) 
         )

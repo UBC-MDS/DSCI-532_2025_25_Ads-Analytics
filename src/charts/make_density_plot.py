@@ -18,17 +18,32 @@ def make_density_plot(df, categories):
     have its own color. If more than four categories are selected, the plot will display the density 
     for all categories together, with the density area colored in steelblue.
     """
+    # if "All" not in categories:
+    #     df = df[df["Category"].isin(categories)]
+
+    # density_chart = alt.Chart(df).transform_density(
+    #     'Rating',
+    #     as_=['Rating', 'Density'],
+    #     groupby=['Category'] if len(categories) <= 4 else []
+    # ).mark_area(opacity=0.5).encode(
+    #     x='Rating:Q',
+    #     y='Density:Q',
+    #     #color='Category:N' if len(categories) <= 4 else alt.value('steelblue'),
+    #     color=alt.Color('Category:N' if len(categories) <= 4 else alt.value('steelblue'), legend=None)
+    # )
+    
     if "All" not in categories:
         df = df[df["Category"].isin(categories)]
 
-    density_chart = alt.Chart(df).transform_density(
-        'Rating',
-        as_=['Rating', 'Density'],
-        groupby=['Category'] if len(categories) <= 4 else []
-    ).mark_area(opacity=0.5).encode(
-        x='Rating:Q',
-        y='Density:Q',
-        color='Category:N' if len(categories) <= 4 else alt.value('steelblue')
+    boxplot_chart = alt.Chart(df).mark_boxplot().encode(
+        y='Category:N',  
+        x='Rating:Q',   
+        color=alt.Color('Category:N' if len(categories) <= 4 else alt.value('steelblue'), legend=None)
+    ).properties(
+        width=400, height=290,
+        title = "Ratings for each Category"
     )
 
-    return density_chart
+    return boxplot_chart
+
+    #return density_chart
