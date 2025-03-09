@@ -8,7 +8,7 @@ import altair as alt
 
 alt.data_transformers.enable("vegafusion")
 # Load the data
-df = load_data("data/preprocessed/clean_data.csv")
+df = load_data("data/preprocessed/clean_data_score.csv")
 
 # Initialize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.UNITED])

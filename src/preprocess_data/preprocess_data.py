@@ -78,6 +78,11 @@ def clean_and_save_data():
 
         df['popularity_score'] = round((df['Rating_normalized'] + df['Reviews_normalized'] + df['Installs_normalized']) / 3, 5)
         
+        category_popularity_avg = df.groupby('Category')['popularity_score'].mean().reset_index(name='avg_popularity_score')
+
+        # Sort categories by average popularity_score in descending order and get top 10
+        top_categories = category_popularity_avg.sort_values(by='avg_popularity_score', ascending=False).head(10)['Category'].tolist()
+        df_score = df[df['Category'].isin(top_categories)]
 
         output_dir = "../../data/preprocessed"
         os.makedirs(output_dir, exist_ok=True)
@@ -86,6 +91,10 @@ def clean_and_save_data():
         df.to_csv(cleaned_file_path, index=False)
 
         print(f"Cleaned data saved to {cleaned_file_path}")
+        
+        cleaned_file_path_score = os.path.join(output_dir, "clean_data_score.csv")
+        df_score.to_csv(cleaned_file_path_score, index=False)
+        print(f"Cleaned data score saved to {cleaned_file_path_score}")
 
     except FileNotFoundError:
         print("Error: Raw data file not found at the specified path.")
