@@ -79,7 +79,7 @@ def create_layout(df):
 
     make_engagement_chart = dvc.Vega(
         id="engagement-chart",
-        spec=engagement_chart(df).to_dict(format="vega"),
+        spec=engagement_chart(df, ["All"]).to_dict(format="vega"),
         style={"padding": "1rem 4rem 1rem"}
     )
 

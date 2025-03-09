@@ -1,6 +1,6 @@
 import altair as alt
 
-def engagement_chart(df):
+def engagement_chart(df, categories):
     """
     Generate an Altair bubble chart showing reviews vs. installs.
 
@@ -10,8 +10,8 @@ def engagement_chart(df):
     Returns:
         dict: Vega JSON object of the Altair chart.
     """
-    if df.empty:
-        return {"data": [], "mark": "circle", "encoding": {}}
+    if "All" not in categories:
+        df = df[df["Category"].isin(categories)]
 
     # Select top 50 apps for better visibility
     top_apps = df.sort_values(by="Installs", ascending=False).head(50)
