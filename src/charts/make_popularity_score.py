@@ -17,6 +17,19 @@ def make_popularity_score(df, categories):
     four categories are selected, the color of the bars is set to orange. Otherwise, the bars
     are colored by category.
     """
+    category_to_color = {
+    'GAME': "#1f77b4",
+    'ENTERTAINMENT': "#ff7f0e",
+    'PHOTOGRAPHY': "#2ca02c",
+    'VIDEO_PLAYERS': "#d62728",
+    'SHOPPING': "#9467bd",
+    'SOCIAL': "#8c564b",
+    'COMMUNICATION': "#e377c2",
+    'HOUSE_AND_HOME': "#7f7f7f",
+    'WEATHER': "#bcbd22",
+    'EDUCATION': "#17becf"
+    }
+    
     if "All" not in categories:
         df = df[df["Category"].isin(categories)]
 
@@ -24,11 +37,11 @@ def make_popularity_score(df, categories):
     category_avg_popularity = df.groupby('Category')['popularity_score'].mean().reset_index(name='avg_popularity_score')
 
     # Create an Altair bar chart to visualize the average popularity_score by category
-    avg_popularity_chart = alt.Chart(category_avg_popularity).mark_bar(opacity=0.7).encode(
+    avg_popularity_chart = alt.Chart(category_avg_popularity).mark_bar().encode(
         alt.Y('Category:N', title='Category', sort='-x'),  
         alt.X('avg_popularity_score:Q', title='Average Popularity Score'),  
         #color='Category:N' if len(categories) <= 4 else alt.value('orange'),  
-        color=alt.Color('Category:N' if len(categories) <= 4 else alt.value('orange'), legend=None),
+        color=alt.Color('Category:N' if len(categories) <= 4 else alt.value('orange'), scale=alt.Scale(domain=list(category_to_color.keys()), range=list(category_to_color.values())),legend=None),
         tooltip=["Category",  alt.Tooltip("avg_popularity_score:Q", title="Average Popularity Score")]
     ).properties(
         width=400, height=290,
