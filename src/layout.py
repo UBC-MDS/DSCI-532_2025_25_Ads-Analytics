@@ -97,7 +97,8 @@ def create_layout(df):
                    'height': '100%' 
                    }
             ))
-    ])
+    ],
+    className="shadow-sm h-100")
 
     make_engagement_chart = dbc.Card([
         dbc.CardHeader('Reviews vs. Installs for Top Apps', style={'fontWeight': 'bold',
@@ -113,7 +114,8 @@ def create_layout(df):
                    'height': '100%' 
                    }
             ))
-    ])
+    ],
+    className="shadow-sm h-100")
 
     density_plot = dbc.Card([
         dbc.CardHeader('Density Plot for Ratings', style={'fontWeight': 'bold',
@@ -124,7 +126,8 @@ def create_layout(df):
             spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
             style={"padding": "1rem 4rem 1rem"}
         ))
-    ])
+    ],
+    className="shadow-sm h-100")
 
     reviews_histogram = dbc.Card([
         dbc.CardHeader('Histogram for Number of Reviews', style={'fontWeight': 'bold',
@@ -135,7 +138,8 @@ def create_layout(df):
             spec=make_reviews_histogram(df, ["All"]).to_dict(format="vega"),
             style={"padding": "1rem 4rem 1rem"}
         ))
-    ])
+    ],
+    className="shadow-sm h-100")
 
     wordcloud_component = dbc.Card([
         dbc.CardHeader('Word Cloud of Top Apps', style={'fontWeight': 'bold',
