@@ -4,9 +4,7 @@ import dash_bootstrap_components as dbc
 from src.data_import import load_data
 from src.layout import create_layout
 from src.callbacks import register_callbacks
-import altair as alt
 
-alt.data_transformers.enable("vegafusion")
 # Load the data
 df = load_data("data/preprocessed/clean_data_score.csv")
 
