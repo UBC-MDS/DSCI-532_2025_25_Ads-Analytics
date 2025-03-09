@@ -33,6 +33,7 @@ def create_global_filters(df):
             multi=True,
             maxHeight=200
         ),
+        html.Br(),
 
         dbc.Label("Rating Range:"),
         dcc.RangeSlider(
@@ -82,11 +83,19 @@ def create_layout(df):
     """
     global_filters = create_global_filters(df)
 
-    install_chart = dvc.Vega(
-        id="category-chart",
-        spec=installs_chart(df).to_dict(format="vega"),
-        style={"padding": "1rem 4rem 1rem"}
-    )
+    install_chart = dbc.Card([
+        dbc.CardHeader('Top 10 App Categories by Installs', style={'fontWeight': 'bold',
+                                                                   "textAlign": "center",}),
+        dbc.CardBody(
+            dvc.Vega(
+            id="category-chart",
+            spec=installs_chart(df).to_dict(format="vega"),
+            style={"padding": "20px", 
+                   "justifyContent": "center",  
+                   "alignItems": "center", 
+                   }
+            ))
+    ])
 
     make_engagement_chart = dvc.Vega(
         id="engagement-chart",
