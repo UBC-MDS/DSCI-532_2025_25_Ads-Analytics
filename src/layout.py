@@ -21,6 +21,10 @@ def create_global_filters(df):
     list: A list of Dash components representing the global filters.
     """
     return [
+        dbc.Col([
+        html.H5('Global controls'),
+        html.Br(),
+
         dbc.Label("Select Category:"),
         dcc.Dropdown(
             id="category-filter",
@@ -57,6 +61,13 @@ def create_global_filters(df):
             multi=True
         ),
         html.Br()
+        ],
+        style={
+            'background-color': '#e6e6e6',
+            'padding': 10,
+            'border-radius': 3,
+        }
+        ) 
     ]
 
 def create_layout(df):
@@ -114,7 +125,7 @@ def create_layout(df):
                     " Playstore Apps Ads Analytics"], className="text-center mb-3"),
                 html.Br(),
                 *global_filters
-            ], width=2, className="border-end pe-3"),
+            ], md=2),
 
             dbc.Col([
                 dbc.Row([
@@ -149,7 +160,7 @@ def create_layout(df):
                 dbc.Row([ 
                     dbc.Col(wordcloud_component, md=12)
                 ])
-            ], md=9)
+            ], md=10)
         ], className="border-top pt-3"),
 
         # Footer
