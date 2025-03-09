@@ -91,9 +91,10 @@ def create_layout(df):
         spec=make_reviews_histogram(df, ["All"]).to_dict(format="vega")
     )
 
-    wordcloud_component = dcc.Graph(  # Replace ranking chart with word cloud
+    wordcloud_component = dcc.Graph(
         id="wordcloud",
-        figure=create_wordcloud(df, ["All"])  # Default to 'All' type
+        figure=create_wordcloud(df, ["All"]),
+        config={"displayModeBar": False}
     )
 
     return dbc.Container([
@@ -134,7 +135,7 @@ def create_layout(df):
                     dbc.Col(reviews_histogram, md=6)
                 ]),
 
-                dbc.Row([  # Update this row to include the word cloud
+                dbc.Row([ 
                     dbc.Col(wordcloud_component, md=6)
                 ])
             ], md=9)

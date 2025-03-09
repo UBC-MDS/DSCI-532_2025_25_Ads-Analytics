@@ -30,21 +30,15 @@ def create_wordcloud(df, categories):
     wordcloud_img = wordcloud.to_image()
 
     fig = go.Figure()
-    fig.add_layout_image(
-        dict(
-            source=wordcloud_img,
-            xref="paper", yref="paper",
-            x=0.5, y=0.5,
-            sizex=1, sizey=1,
-            opacity=1, layer="below"
-        )
-    )
-    
+    fig.add_trace(go.Image(z=wordcloud))
     fig.update_layout(
-        template="plotly_dark",
-        xaxis=dict(showgrid=False, zeroline=False),
-        yaxis=dict(showgrid=False, zeroline=False),
-        showlegend=False
+        height=400,
+        xaxis={"visible": False},
+        yaxis={"visible": False},
+        margin={"t": 0, "b": 0, "l": 0, "r": 0},
+        hovermode=False,
+        paper_bgcolor="#F9F9FA",
+        plot_bgcolor="#F9F9FA",
     )
     
     return fig
