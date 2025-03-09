@@ -30,9 +30,7 @@ def make_density_plot(df, categories):
         y='Density:Q',
         color='Category:N' if len(categories) <= 4 else alt.value('steelblue')
     ).properties(
-        title="Density Plot for Ratings",
-        width=450,
-        height=400
+        title="Density Plot for Ratings"
     )
 
     return density_chart

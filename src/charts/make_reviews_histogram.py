@@ -25,9 +25,7 @@ def make_reviews_histogram(df, categories):
         alt.Y('count():Q', title='Count'),
         color='Category:N' if len(categories) <= 4 else alt.value('orange')
     ).properties(
-        title="Histogram for Number of Reviews",
-        width=450,
-        height=400
+        title="Histogram for Number of Reviews"
     )
 
     return reviews_histogram

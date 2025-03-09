@@ -73,22 +73,26 @@ def create_layout(df):
 
     install_chart = dvc.Vega(
         id="category-chart",
-        spec=installs_chart(df).to_dict(format="vega") 
+        spec=installs_chart(df).to_dict(format="vega"),
+        style={"padding": "1rem 4rem 1rem"}
     )
 
     make_engagement_chart = dvc.Vega(
         id="engagement-chart",
-        spec=engagement_chart(df).to_dict(format="vega")   
+        spec=engagement_chart(df).to_dict(format="vega"),
+        style={"padding": "1rem 4rem 1rem"}
     )
 
     density_plot = dvc.Vega(
         id="density-plot",
-        spec=make_density_plot(df, ["All"]).to_dict(format="vega")
+        spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
+        style={"padding": "1rem 4rem 1rem"}
     )
 
     reviews_histogram = dvc.Vega(
         id="reviews-histogram",
-        spec=make_reviews_histogram(df, ["All"]).to_dict(format="vega")
+        spec=make_reviews_histogram(df, ["All"]).to_dict(format="vega"),
+        style={"padding": "1rem 4rem 1rem"}
     )
 
     wordcloud_component = dcc.Graph(
@@ -127,16 +131,16 @@ def create_layout(df):
 
                 dbc.Row([
                     dbc.Col(install_chart, md=6),  
-                    dbc.Col(make_engagement_chart, md=6)
+                    dbc.Col(make_engagement_chart, md=3)
                 ]),
 
                 dbc.Row([
                     dbc.Col(density_plot, md=6),
-                    dbc.Col(reviews_histogram, md=6)
+                    dbc.Col(reviews_histogram, md=3)
                 ]),
 
                 dbc.Row([ 
-                    dbc.Col(wordcloud_component, md=6)
+                    dbc.Col(wordcloud_component, md=12)
                 ])
             ], md=9)
         ], className="border-top pt-3"),
