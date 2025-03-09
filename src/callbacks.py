@@ -31,6 +31,18 @@ def register_callbacks(app, df):
          Input("category-filter", "value")]
     )
     def update_charts(selected_types, rating_range, selected_ratings, selected_categories):
+        # If filter is empty
+        if not selected_types or not selected_ratings or not selected_categories or rating_range is None:
+            return (
+                {},
+                {}, 
+                [], 
+                [], 
+                {},
+                {}, 
+                {}
+            )
+    
         # Apply all filters to the dataset (filtering based on all inputs)
         if "All" in selected_types:
             selected_types = df["Type"].unique()
@@ -66,5 +78,5 @@ def register_callbacks(app, df):
             ["All"] if len(selected_categories) == len(df["Category"].unique()) else selected_categories,
             make_density_plot(filtered_df, selected_categories).to_dict(format="vega"),  
             make_reviews_histogram(filtered_df, selected_categories).to_dict(format="vega"),
-            create_wordcloud(filtered_df, ["All"])  # Create the word cloud based on the selected app type
+            create_wordcloud(filtered_df, ["All"]) 
         )
