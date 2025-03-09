@@ -43,7 +43,8 @@ def create_global_filters(df):
             step=0.5,
             marks={i: str(i) for i in range(1, 6)},
             value=[1, 5],
-            updatemode='drag'
+            updatemode='mouseup',
+            tooltip={"always_visible": True, "placement": "bottom"}
         ),
         html.Br(),
 
@@ -63,6 +64,7 @@ def create_global_filters(df):
         ),
         html.Br()
         ],
+        className="h-80",
         style={
             'background-color': '#e6e6e6',
             'padding': 10,
