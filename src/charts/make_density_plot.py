@@ -18,17 +18,44 @@ def make_density_plot(df, categories):
     have its own color. If more than four categories are selected, the plot will display the density 
     for all categories together, with the density area colored in steelblue.
     """
+    # if "All" not in categories:
+    #     df = df[df["Category"].isin(categories)]
+
+    # density_chart = alt.Chart(df).transform_density(
+    #     'Rating',
+    #     as_=['Rating', 'Density'],
+    #     groupby=['Category'] if len(categories) <= 4 else []
+    # ).mark_area(opacity=0.5).encode(
+    #     x='Rating:Q',
+    #     y='Density:Q',
+    #     #color='Category:N' if len(categories) <= 4 else alt.value('steelblue'),
+    #     color=alt.Color('Category:N' if len(categories) <= 4 else alt.value('steelblue'), legend=None)
+    # )
+    
+    category_to_color = {
+    'GAME': "#1f77b4",
+    'ENTERTAINMENT': "#ff7f0e",
+    'PHOTOGRAPHY': "#2ca02c",
+    'VIDEO_PLAYERS': "#d62728",
+    'SHOPPING': "#9467bd",
+    'SOCIAL': "#8c564b",
+    'COMMUNICATION': "#e377c2",
+    'HOUSE_AND_HOME': "#7f7f7f",
+    'WEATHER': "#bcbd22",
+    'EDUCATION': "#17becf"
+    }
     if "All" not in categories:
         df = df[df["Category"].isin(categories)]
 
-    density_chart = alt.Chart(df).transform_density(
-        'Rating',
-        as_=['Rating', 'Density'],
-        groupby=['Category'] if len(categories) <= 4 else []
-    ).mark_area(opacity=0.5).encode(
-        x='Rating:Q',
-        y='Density:Q',
-        color='Category:N' if len(categories) <= 4 else alt.value('steelblue')
+    boxplot_chart = alt.Chart(df).mark_boxplot().encode(
+        y='Category:N',  
+        x='Rating:Q',   
+        color=alt.Color('Category:N' if len(categories) <= 4 else alt.value('steelblue'), scale=alt.Scale(domain=list(category_to_color.keys()), range=list(category_to_color.values())),legend=None)
+    ).properties(
+        width=400, height=290,
+        title = "Ratings for each Category"
     )
 
-    return density_chart
+    return boxplot_chart
+
+    #return density_chart
