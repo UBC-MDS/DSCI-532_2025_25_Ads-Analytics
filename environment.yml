@@ -11,7 +11,7 @@ dependencies:
   - pandas=1.5.3
   - numpy=1.24.2
   - altair==5.3.*
-  - vegafusion>=1.5.0
+  - vegafusion==1.6.9
   - vegafusion-python-embed>=1.5.0
   - matplotlib>=3.0.0
   - wordcloud>=1.8.0
