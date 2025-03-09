@@ -31,8 +31,7 @@ def engagement_chart(df):
                  alt.Tooltip("Reviews:Q", title="Total Reviews"), "Rating"]
     ).properties(
         title="Reviews vs. Installs for Top Apps",
-        width=450,
-        height=400
+        height=300
     ).add_params(
         selection  
     )
