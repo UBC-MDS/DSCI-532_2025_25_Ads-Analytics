@@ -44,13 +44,9 @@ def make_popularity_score(df, categories):
         color=alt.Color('Category:N' if len(categories) <= 4 else alt.value('orange'), scale=alt.Scale(domain=list(category_to_color.keys()), range=list(category_to_color.values())),legend=None),
         tooltip=["Category",  alt.Tooltip("avg_popularity_score:Q", title="Average Popularity Score")]
     ).properties(
-<<<<<<< HEAD
         height=350,
         width=320
         #title="Average Popularity Score by Category"
-=======
-        width=400, height=290
->>>>>>> 85e06d73fa8880b9300fe626d562863e1cb6b6e6
     )
 
     return avg_popularity_chart
