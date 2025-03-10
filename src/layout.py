@@ -9,6 +9,7 @@ from src.charts.make_density_plot import make_density_plot
 from src.charts.make_reviews_histogram import make_reviews_histogram
 from src.charts.ranking_chart import create_wordcloud 
 from src.charts.make_popularity_score import make_popularity_score
+from src.charts.install_chart import installs_chart
 
 def create_global_filters(df):
     return [
@@ -141,7 +142,8 @@ def create_layout(df):
                 style={'width': '100%', 'height': '100%'}
             )
         )
-    ])
+    ],
+    className="shadow-sm h-100")
 
     return dbc.Container([
         dbc.Row([
