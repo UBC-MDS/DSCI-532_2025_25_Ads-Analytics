@@ -127,7 +127,12 @@ def create_layout(df):
             dvc.Vega(
             id="density-plot",
             spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
-            style={"padding": "1rem 4rem 1rem"}
+            style={"padding": "20%", 
+                   "justifyContent": "center",  
+                   "alignItems": "center",
+                   'width': '100%',
+                   'height': '100%' 
+                   }
         ))
     ],
     className="shadow-sm h-100")
@@ -139,7 +144,12 @@ def create_layout(df):
             dvc.Vega(
             id="popularity-histogram",
             spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
-            style={"padding": "1rem 4rem 1rem"}
+            style={"padding": "20%", 
+                   "justifyContent": "center",  
+                   "alignItems": "center",
+                   'width': '100%',
+                   'height': '100%' 
+                   }
         ))
     ],
     className="shadow-sm h-100")
@@ -174,23 +184,32 @@ def create_layout(df):
                 dbc.Row([
                     dbc.Col(
                         dbc.Card([
-                            dbc.CardHeader("Average Rating", style={'fontWeight': 'bold'}),
-                            dbc.CardBody(html.H4(id="mean-rating", className="card-text")),
-                        ], className="text-center shadow-sm"),
+                            dbc.CardHeader(html.Span("Average Rating", className="fw-bold text-dark"),
+                                           className="text-center bg-light border-bottom border-3",
+                                           style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
+                            dbc.CardBody(html.H3(id="mean-rating", className="fw-bold", style={"color": "#34A853"}), 
+                                         className="d-flex align-items-center justify-content-center p-4"),
+                        ], className="text-center shadow-sm border-0 rounded mb-3"),
                         md=4
                     ),
                     dbc.Col(
                         dbc.Card([
-                            dbc.CardHeader("Average Reviews", style={'fontWeight': 'bold'}),
-                            dbc.CardBody(html.H4(id="mean-reviews", className="card-text")),
-                        ], className="text-center shadow-sm"),
+                            dbc.CardHeader(html.Span("Average Reviews", className="fw-bold text-dark"),
+                                           className="text-center bg-light border-bottom border-3",
+                                           style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
+                            dbc.CardBody(html.H3(id="mean-reviews", className="fw-bold", style={"color": "#4285F4"}),  
+                                         className="d-flex align-items-center justify-content-center p-4"),
+                        ], className="text-center shadow-sm border-0 rounded mb-3"),
                         md=4
                     ),
                     dbc.Col(
                         dbc.Card([
-                            dbc.CardHeader("Average Installs", style={'fontWeight': 'bold'}),
-                            dbc.CardBody(html.H4(id="mean-installs", className="card-text")),
-                        ], className="text-center shadow-sm"),
+                            dbc.CardHeader(html.Span("Average Installs", className="fw-bold text-dark"),
+                                           className="text-center bg-light border-bottom border-3",
+                                           style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
+                            dbc.CardBody(html.H3(id="mean-installs", className="fw-bold", style={"color": "#FBBC05"}), 
+                                         className="d-flex align-items-center justify-content-center p-4"),
+                        ], className="text-center shadow-sm border-0 rounded mb-3"),
                         md=4
                     ),
                 ], className="mt-3 mb-4", justify="center"),
