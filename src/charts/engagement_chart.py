@@ -26,7 +26,7 @@ def engagement_chart(df, categories):
         df = df[df["Category"].isin(categories)]
 
     # Select top 50 apps for better visibility
-    top_apps = df.sort_values(by="popularity_score", ascending=False).head(50)
+    top_apps = df.sort_values(by="Installs", ascending=False).head(50)
 
     top_apps["Installs"] = top_apps["Installs"] / 1_000  
     top_apps["Reviews"] = top_apps["Reviews"] / 1_000  
@@ -34,21 +34,21 @@ def engagement_chart(df, categories):
     selection = alt.selection_point(fields=["Category"], bind="legend")
 
     chart = alt.Chart(top_apps).mark_circle().encode(
-    x=alt.X("Reviews:Q", title="Number of Reviews",
-            scale=alt.Scale(domain=[top_apps["Reviews"].min(), top_apps["Reviews"].max()])),
-    y=alt.Y("Installs:Q", title="Total Installs",
-            scale=alt.Scale(domain=[top_apps["Installs"].min(), top_apps["Installs"].max()])),
-    size=alt.Size("Installs:Q", title="Relative Bubble Size", scale=alt.Scale(range=[10, 500])),  
-    color=alt.Color("Category:N", title="Category",
-                    scale=alt.Scale(domain=list(category_to_color.keys()), 
-                                    range=list(category_to_color.values()))),  
-    opacity=alt.condition(selection, alt.value(0.8), alt.value(0.2)), 
-    tooltip=["App", "Category", alt.Tooltip("Installs:Q", title="Total Installs"),
-             alt.Tooltip("Reviews:Q", title="Total Reviews"), "Rating"]
-).properties(
-    height=290
-).add_params(
-    selection  
-)
+        x=alt.X("Reviews:Q", title="Number of Reviews"),
+        y=alt.Y("Installs:Q", title="Total Installs"),
+        size=alt.Size("Installs:Q", title="Relative Bubble Size", scale=alt.Scale(range=[10, 500])),  
+        color=alt.Color("Category:N", title="Category", scale=alt.Scale(domain=list(category_to_color.keys()), 
+                                                                        range=list(category_to_color.values()),#legend=alt.Legend(title="App Category")
+                        )),  
+        opacity=alt.condition(selection, alt.value(0.8), alt.value(0.2)), 
+        tooltip=["App", "Category", alt.Tooltip("Installs:Q", title="Total Installs"),
+                 alt.Tooltip("Reviews:Q", title="Total Reviews"), "Rating"]
+    ).properties(
+        #title="Reviews vs. Installs for Top Apps",
+        height=290,
+        
+    ).add_params(
+        selection  
+    )
 
     return chart

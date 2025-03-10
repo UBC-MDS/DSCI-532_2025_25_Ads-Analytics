@@ -52,7 +52,8 @@ def make_density_plot(df, categories):
         x='Rating:Q',   
         color=alt.Color('Category:N' if len(categories) <= 4 else alt.value('steelblue'), scale=alt.Scale(domain=list(category_to_color.keys()), range=list(category_to_color.values())),legend=None)
     ).properties(
-        width=400, height=290
+        width=400, height=290,
+        title = "Ratings for each Category"
     )
 
     return boxplot_chart
