@@ -67,8 +67,8 @@ def register_callbacks(app, df):
         # Calculate mean statistics
         stats = get_summary_stats(filtered_df)
         mean_rating = f"{stats['mean_rating']:.2f}"
-        mean_reviews = f"{stats['mean_reviews']:.0f}"
-        mean_installs = f"{stats['mean_installs']:.0f}"
+        mean_reviews = f"{stats['mean_reviews']:,.0f}"
+        mean_installs = f"{stats['mean_installs']:,.0f}"
 
         # Determine if "All" should remain selected
         updated_categories = (

@@ -19,15 +19,20 @@
     - Could move the legend outside the plot
 
 ## 3. Differences from Proposal/Sketch
+- Still maintaining same layout as proposal with further enhancements
 
 ## 4. Corner Cases or Unresolved Issues
+- Still unable to resolve render deploy issues, even after reducing dataset
 
 ## 5. Deviation from Best Practices (if applicable)
 
 ## 6. Reflection on the Dashboard
+- We have evolved in the dashboard app development, we now have active and interactive filters, KPI cards and the dashboard has taken a good shape
 
 ### What the Dashboard Does Well:
 
 ### Limitations or Areas for Improvement:
+- Still looking into more outlook enhancements
 
 ### Potential Future Improvements or Additions:
+- Having additional chart that better communicate with our audience
