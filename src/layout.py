@@ -100,21 +100,6 @@ def create_layout(df):
     ],
     className="shadow-sm h-100")
 
-    # density_plot = dbc.Card([
-    #     dbc.CardHeader('Density Plot for Ratings', style={'fontWeight': 'bold', "textAlign": "center"}),
-    #     dbc.CardBody(
-    #         dvc.Vega(
-    #         id="density-plot",
-    #         spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
-    #         style={"padding": "20%", 
-    #                "justifyContent": "center",  
-    #                "alignItems": "center",
-    #                'width': '100%',
-    #                'height': '100%' 
-    #                }
-    #     ))
-    # ],
-    # className="shadow-sm h-100")
 
     density_plot = dbc.Card(
     [
