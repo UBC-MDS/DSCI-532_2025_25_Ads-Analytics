@@ -100,37 +100,80 @@ def create_layout(df):
     ],
     className="shadow-sm h-100")
 
-    density_plot = dbc.Card([
-        dbc.CardHeader('Density Plot for Ratings', style={'fontWeight': 'bold', "textAlign": "center"}),
-        dbc.CardBody(
-            dvc.Vega(
-            id="density-plot",
-            spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
-            style={"padding": "20%", 
-                   "justifyContent": "center",  
-                   "alignItems": "center",
-                   'width': '100%',
-                   'height': '100%' 
-                   }
-        ))
-    ],
-    className="shadow-sm h-100")
+    # density_plot = dbc.Card([
+    #     dbc.CardHeader('Density Plot for Ratings', style={'fontWeight': 'bold', "textAlign": "center"}),
+    #     dbc.CardBody(
+    #         dvc.Vega(
+    #         id="density-plot",
+    #         spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
+    #         style={"padding": "20%", 
+    #                "justifyContent": "center",  
+    #                "alignItems": "center",
+    #                'width': '100%',
+    #                'height': '100%' 
+    #                }
+    #     ))
+    # ],
+    # className="shadow-sm h-100")
 
-    popularity_histogram = dbc.Card([
-        dbc.CardHeader('Average Popularity Score by Categories', style={'fontWeight': 'bold', "textAlign": "center"}),
+    density_plot = dbc.Card(
+    [
+        dbc.CardHeader(
+            "Density Plot for Ratings",
+            className="fw-bold text-center bg-light border-bottom border-secondary"
+        ),
         dbc.CardBody(
             dvc.Vega(
-            id="popularity-histogram",
-            spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
-            style={"padding": "20%", 
-                   "justifyContent": "center",  
-                   "alignItems": "center",
-                   'width': '100%',
-                   'height': '100%' 
-                   }
-        ))
+                id="density-plot",
+                spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
+                style={
+                    "width": "100%",
+                    "height": "100%"  
+                }
+            ),
+            className="d-flex align-items-center justify-content-center p-0"  
+        )
     ],
-    className="shadow-sm h-100")
+    className="shadow-sm h-100 border-0 rounded"
+)
+
+    # popularity_histogram = dbc.Card([
+    #     dbc.CardHeader('Average Popularity Score by Categories', style={'fontWeight': 'bold', "textAlign": "center"}),
+    #     dbc.CardBody(
+    #         dvc.Vega(
+    #         id="popularity-histogram",
+    #         spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
+    #         style={"padding": "20%", 
+    #                "justifyContent": "center",  
+    #                "alignItems": "center",
+    #                'width': '100%',
+    #                'height': '100%' 
+    #                }
+    #     ))
+    # ],
+    # className="shadow-sm h-100")
+
+    popularity_histogram = dbc.Card(
+        [
+            dbc.CardHeader(
+                "Average Popularity Score by Categories",
+                className="fw-bold text-center bg-light border-bottom border-secondary"
+            ),
+            dbc.CardBody(
+                dvc.Vega(
+                    id="popularity-histogram",
+                    spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
+                    style={
+                        "width": "100%",
+                        "height": "100%" 
+                    }
+                ),
+                className="d-flex align-items-center justify-content-center p-0" 
+            )
+        ],
+        className="shadow-sm h-100 border-0 rounded"
+    )
+
 
     wordcloud_component = dbc.Card([
         dbc.CardHeader('Word Cloud of Top Apps', style={'fontWeight': 'bold', "textAlign": "center"}),
@@ -144,6 +187,28 @@ def create_layout(df):
         )
     ],
     className="shadow-sm h-100")
+
+#     wordcloud_component = dbc.Card(
+#     [
+#         dbc.CardHeader(
+#             "Word Cloud of Top Apps",
+#             className="fw-bold text-center bg-light border-bottom border-primary"
+#         ),
+#         dbc.CardBody(
+#             dcc.Graph(
+#                 id="wordcloud",
+#                 figure=create_wordcloud(df, ["All"]),
+#                 config={"displayModeBar": False},
+#                 style={
+#                     "width": "100%",
+#                     "height": "100%"  
+#                 }
+#             ),
+#             className="d-flex align-items-center justify-content-center p-0" 
+#         )
+#     ],
+#     className="shadow-sm h-100 border-0 rounded"
+# )
 
     return dbc.Container([
         dbc.Row([
