@@ -161,27 +161,6 @@ def create_layout(df):
     ],
     className="shadow-sm h-100 border-0 rounded")
 
-#     wordcloud_component = dbc.Card(
-#     [
-#         dbc.CardHeader(
-#             "Word Cloud of Top Apps",
-#             className="fw-bold text-center bg-light border-bottom border-primary"
-#         ),
-#         dbc.CardBody(
-#             dcc.Graph(
-#                 id="wordcloud",
-#                 figure=create_wordcloud(df, ["All"]),
-#                 config={"displayModeBar": False},
-#                 style={
-#                     "width": "100%",
-#                     "height": "100%"  
-#                 }
-#             ),
-#             className="d-flex align-items-center justify-content-center p-0" 
-#         )
-#     ],
-#     className="shadow-sm h-100 border-0 rounded"
-# )
 
     return dbc.Container([
         dbc.Row([
