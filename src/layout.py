@@ -137,21 +137,6 @@ def create_layout(df):
     className="shadow-sm h-100 border-0 rounded"
 )
 
-    # popularity_histogram = dbc.Card([
-    #     dbc.CardHeader('Average Popularity Score by Categories', style={'fontWeight': 'bold', "textAlign": "center"}),
-    #     dbc.CardBody(
-    #         dvc.Vega(
-    #         id="popularity-histogram",
-    #         spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
-    #         style={"padding": "20%", 
-    #                "justifyContent": "center",  
-    #                "alignItems": "center",
-    #                'width': '100%',
-    #                'height': '100%' 
-    #                }
-    #     ))
-    # ],
-    # className="shadow-sm h-100")
 
     popularity_histogram = dbc.Card(
         [
