@@ -161,7 +161,8 @@ def create_layout(df):
 
 
     wordcloud_component = dbc.Card([
-        dbc.CardHeader('Word Cloud of Top Apps', style={'fontWeight': 'bold', "textAlign": "center"}),
+        dbc.CardHeader('Word Cloud of Top Apps', 
+                       className="fw-bold text-center bg-light border-bottom border-primary"),
         dbc.CardBody(
             dcc.Graph(
                 id="wordcloud",
