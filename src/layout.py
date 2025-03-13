@@ -14,59 +14,73 @@ from src.charts.install_chart import installs_chart
 def create_global_filters(df):
     return [
         dbc.Col([
-        html.H5('Global controls'),
-        html.Br(),
+            html.H1([
+                html.Img(src='assets/android-chrome-192x192.png', height='50px'),
+                " Playstore Apps Ads Analytics"
+            ], 
+            className="text-center mb-3",
+            style={
+                'padding': '5px',
+                'backgroundColor': 'white'
+            }),
+            html.Br(),
 
-        dbc.Label("Select Category:"),
-        dcc.Dropdown(
-            id="category-filter",
-            options=get_dropdown_options(df, "Category"),
-            value=["All"],
-            multi=True,
-            maxHeight=200
-        ),
-        html.Br(),
+            html.H5('Global controls'),
+            html.Br(),
 
-        dbc.Label("Rating Range:"),
-        dcc.RangeSlider(
-            id="rating-slider",
-            min=1,
-            max=5,
-            step=0.5,
-            marks={i: str(i) for i in range(1, 6)},
-            value=[1, 5],
-            updatemode='mouseup',
-            tooltip={"always_visible": True, "placement": "bottom"}
-        ),
-        html.Br(),
+            dbc.Label("Select Category:"),
+            dcc.Dropdown(
+                id="category-filter",
+                options=get_dropdown_options(df, "Category"),
+                value=["All"],
+                multi=True,
+                maxHeight=200
+            ),
+            html.Br(),
 
-        dbc.Label("Select App Type:"),
-        dcc.Dropdown(id="app-type-filter", 
-                     options=get_dropdown_options(df, "Type"),
-                     value=["All"], 
-                     multi=True),
-        html.Br(),
+            dbc.Label("Rating Range:"),
+            dcc.RangeSlider(
+                id="rating-slider",
+                min=1,
+                max=5,
+                step=0.5,
+                marks={i: str(i) for i in range(1, 6)},
+                value=[1, 5],
+                updatemode='mouseup',
+                tooltip={"always_visible": True, "placement": "bottom"}
+            ),
+            html.Br(),
 
-        dbc.Label("Select Content Rating:"),
-        dcc.Dropdown(
-            id="content-rating-filter",
-            options=get_dropdown_options(df, "Content Rating"),
-            value=["All"], 
-            multi=True
-        ),
-        html.Br()
+            dbc.Label("Select App Type:"),
+            dcc.Dropdown(id="app-type-filter", 
+                         options=get_dropdown_options(df, "Type"),
+                         value=["All"], 
+                         multi=True),
+            html.Br(),
+
+            dbc.Label("Select Content Rating:"),
+            dcc.Dropdown(
+                id="content-rating-filter",
+                options=get_dropdown_options(df, "Content Rating"),
+                value=["All"], 
+                multi=True
+            ),
+            html.Br()
         ],
-        className="h-80",
+        className="filter-80",
         style={
-            'background-color': '#e6e6e6',
+            'background-color': 'white',
             'padding': 10,
             'border-radius': 3,
-        }) 
+            'height': '100%'
+        })
     ]
 
 def create_layout(df):
+    # Filters
     global_filters = create_global_filters(df)
 
+    # Make charts
     install_chart = dbc.Card([
         dbc.CardHeader('Top 10 App Categories by Installs', style={'fontWeight': 'bold',
                                                                    "textAlign": "center",}),
@@ -156,20 +170,24 @@ def create_layout(df):
             className="d-flex align-items-center justify-content-center p-0" 
         )
     ],
-    className="shadow-sm h-100")
+    className="shadow-sm h-100 border-0 rounded")
+
+    # Make footer
+    footer = dbc.Row(dbc.Col([
+            html.Hr(),
+            html.H6('This dashboard helps advertisement companies identify the most promising Google Play Store apps for ad placements by analyzing app metrics such as user engagement and ratings', 
+                    className="text-center fw-light mb-4",
+                    style={"maxWidth": "60%", "margin": "auto", "whiteSpace": "normal", "wordWrap": "break-word"}
+                    ),
+            html.P("Project by: Quanhua Huang, Yeji Sohn, Lukman Lateef, Ismail (Husain) Bhinderwala", className="text-center fw-light"),
+            html.P(["GitHub Repository: ", html.A("Link to Repo", href="https://github.com/UBC-MDS/DSCI-532_2025_25_Ads-Analytics", target="_blank")], className="text-center"),
+            html.P("Last Updated: March 2025", className="text-center fw-light"),
+            html.P([html.A("Adwords icons created by Freepik - Flaticon", href="https://www.flaticon.com/free-icons/adwords", title="adwords icons")], className="text-center fw-light mt-3")
+        ], width=12, className="text-center mt-4"))
 
     return dbc.Container([
         dbc.Row([
             dbc.Col([ 
-                html.H1([
-                    html.Span("G", style={"color": "#4285F4", "fontWeight": "bold"}), 
-                    html.Span("o", style={"color": "#EA4335", "fontWeight": "bold"}),
-                    html.Span("o", style={"color": "#FBBC05", "fontWeight": "bold"}), 
-                    html.Span("g", style={"color": "#4285F4", "fontWeight": "bold"}), 
-                    html.Span("l", style={"color": "#34A853", "fontWeight": "bold"}),  
-                    html.Span("e", style={"color": "#EA4335", "fontWeight": "bold"}), 
-                    " Playstore Apps Ads Analytics"], className="text-center mb-3"),
-                html.Br(),
                 *global_filters
             ], md=2),
 
@@ -178,57 +196,56 @@ def create_layout(df):
                     dbc.Col(
                         dbc.Card([
                             dbc.CardHeader(html.Span("Average Rating", className="fw-bold text-dark"),
-                                           className="text-center bg-light border-bottom border-3",
-                                           style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
+                                        className="text-center bg-light border-bottom border-3",
+                                        style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
                             dbc.CardBody(html.H3(id="mean-rating", className="fw-bold", style={"color": "#34A853"}), 
-                                         className="d-flex align-items-center justify-content-center p-4"),
+                                        className="d-flex align-items-center justify-content-center p-4"),
                         ], className="text-center shadow-sm border-0 rounded mb-3"),
                         md=4
                     ),
                     dbc.Col(
                         dbc.Card([
                             dbc.CardHeader(html.Span("Average Reviews", className="fw-bold text-dark"),
-                                           className="text-center bg-light border-bottom border-3",
-                                           style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
+                                        className="text-center bg-light border-bottom border-3",
+                                        style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
                             dbc.CardBody(html.H3(id="mean-reviews", className="fw-bold", style={"color": "#4285F4"}),  
-                                         className="d-flex align-items-center justify-content-center p-4"),
+                                        className="d-flex align-items-center justify-content-center p-4"),
                         ], className="text-center shadow-sm border-0 rounded mb-3"),
                         md=4
                     ),
                     dbc.Col(
                         dbc.Card([
                             dbc.CardHeader(html.Span("Average Installs", className="fw-bold text-dark"),
-                                           className="text-center bg-light border-bottom border-3",
-                                           style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
+                                        className="text-center bg-light border-bottom border-3",
+                                        style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
                             dbc.CardBody(html.H3(id="mean-installs", className="fw-bold", style={"color": "#FBBC05"}), 
-                                         className="d-flex align-items-center justify-content-center p-4"),
+                                        className="d-flex align-items-center justify-content-center p-4"),
                         ], className="text-center shadow-sm border-0 rounded mb-3"),
                         md=4
                     ),
-                ], className="mt-3 mb-4", justify="center"),
+                ], 
+                className="mt-3 mb-4", 
+                justify="center"),
 
                 dbc.Row([
-                    dbc.Col(popularity_histogram, md=6),  # Moved to top-left
-                    dbc.Col(make_engagement_chart, md=6)
-                ]),
-
-                dbc.Row([
-                    dbc.Col(density_plot, md=6),
-                    dbc.Col(wordcloud_component, md=6)  # Moved Word Cloud here
+                    dbc.Col(dbc.Card([
+                        dbc.CardBody([
+                            dbc.Row([
+                                dbc.Col(popularity_histogram, md=6),
+                                dbc.Col(make_engagement_chart, md=6)
+                            ]),
+                            dbc.Row([
+                                dbc.Col(density_plot, md=6),
+                                dbc.Col(wordcloud_component, md=6)
+                            ])
+                        ])
+                    ], style={"backgroundColor": "#f8f9fa", "paddingTop": "10px", "paddingBottom": "10px"}), md=12)
                 ])
+
             ], md=10)
-            ], className="border-top pt-3"),
- 
-         # Footer
-         dbc.Row(dbc.Col([
-             html.Hr(),
-             html.H6('This dashboard helps advertisement companies identify the most promising Google Play Store apps for ad placements by analyzing app metrics such as user engagement and ratings', 
-                     className="text-center fw-light mb-4",
-                     style={"maxWidth": "60%", "margin": "auto", "whiteSpace": "normal", "wordWrap": "break-word"}
-                     ),
-             html.P("Project by: Quanhua Huang, Yeji Sohn, Lukman Lateef, Ismail (Husain) Bhinderwala", className="text-center fw-light"),
-             html.P(["GitHub Repository: ", html.A("Link to Repo", href="https://github.com/UBC-MDS/DSCI-532_2025_25_Ads-Analytics", target="_blank")], className="text-center"),
-             html.P("Last Updated: March 2025", className="text-center fw-light")
-         ], width=12, 
-         className="text-center mt-4"))
-    ], fluid=True)
+        ], className="border-top pt-3"),
+
+        # Footer
+        footer
+    ], fluid=True, style={"backgroundColor": "#add8e6"})
+
