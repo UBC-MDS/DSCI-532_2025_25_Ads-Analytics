@@ -22,4 +22,4 @@ app.layout = create_layout(df)
 register_callbacks(app, df)
 
 if __name__ == "__main__":
-    server.run(debug=True)
+    server.run(debug=False)

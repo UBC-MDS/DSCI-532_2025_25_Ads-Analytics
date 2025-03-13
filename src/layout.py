@@ -99,20 +99,20 @@ def create_layout(df):
     className="shadow-sm h-100")
 
     make_engagement_chart = dbc.Card([
-        dbc.CardHeader('Reviews vs. Installs for Top Apps', style={'fontWeight': 'bold', "textAlign": "center"}),
+        dbc.CardHeader('Reviews vs. Installs for Top Apps', 
+                       className="fw-bold text-center bg-light border-bottom border-secondary"),
         dbc.CardBody(
             dvc.Vega(
             id="engagement-chart",
             spec=engagement_chart(df, ["All"]).to_dict(format="vega"),
-            style={"padding": "20px", 
-                   "justifyContent": "center",  
-                   "alignItems": "center",
-                   'width': '100%',
+            style={'width': '100%',
                    'height': '100%' 
                    }
-            ))
+            ),
+            className="d-flex align-items-center justify-content-center p-0"
+            )
     ],
-    className="shadow-sm h-100")
+    className="shadow-sm h-100 border-0 rounded")
 
 
     density_plot = dbc.Card(
@@ -123,19 +123,16 @@ def create_layout(df):
         ),
         dbc.CardBody(
             dvc.Vega(
-                id="density-plot",
-                spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
-                style={
-                    "width": "100%",
-                    "height": "100%"  
-                }
-            ),
-            className="d-flex align-items-center justify-content-center p-0"  
+            id="density-plot",
+            spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
+            style={'width': '100%',
+                   'height': '100%' 
+                   }
+        ),
+        className="d-flex align-items-center justify-content-center p-0"
         )
     ],
-    className="shadow-sm h-100 border-0 rounded"
-)
-
+    className="shadow-sm h-100 border-0 rounded")
 
     popularity_histogram = dbc.Card(
         [
