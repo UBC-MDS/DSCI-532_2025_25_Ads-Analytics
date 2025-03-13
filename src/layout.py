@@ -14,59 +14,63 @@ from src.charts.install_chart import installs_chart
 def create_global_filters(df):
     return [
         dbc.Col([
-        html.H5('Global controls'),
-        html.Br(),
+            html.H5('Global controls'),
+            html.Br(),
 
-        dbc.Label("Select Category:"),
-        dcc.Dropdown(
-            id="category-filter",
-            options=get_dropdown_options(df, "Category"),
-            value=["All"],
-            multi=True,
-            maxHeight=200
-        ),
-        html.Br(),
+            dbc.Label("Select Category:"),
+            dcc.Dropdown(
+                id="category-filter",
+                options=get_dropdown_options(df, "Category"),
+                value=["All"],
+                multi=True,
+                maxHeight=200
+            ),
+            html.Br(),
 
-        dbc.Label("Rating Range:"),
-        dcc.RangeSlider(
-            id="rating-slider",
-            min=1,
-            max=5,
-            step=0.5,
-            marks={i: str(i) for i in range(1, 6)},
-            value=[1, 5],
-            updatemode='mouseup',
-            tooltip={"always_visible": True, "placement": "bottom"}
-        ),
-        html.Br(),
+            dbc.Label("Rating Range:"),
+            dcc.RangeSlider(
+                id="rating-slider",
+                min=1,
+                max=5,
+                step=0.5,
+                marks={i: str(i) for i in range(1, 6)},
+                value=[1, 5],
+                updatemode='mouseup',
+                tooltip={"always_visible": True, "placement": "bottom"}
+            ),
+            html.Br(),
 
-        dbc.Label("Select App Type:"),
-        dcc.Dropdown(id="app-type-filter", 
-                     options=get_dropdown_options(df, "Type"),
-                     value=["All"], 
-                     multi=True),
-        html.Br(),
+            dbc.Label("Select App Type:"),
+            dcc.Dropdown(id="app-type-filter", 
+                         options=get_dropdown_options(df, "Type"),
+                         value=["All"], 
+                         multi=True),
+            html.Br(),
 
-        dbc.Label("Select Content Rating:"),
-        dcc.Dropdown(
-            id="content-rating-filter",
-            options=get_dropdown_options(df, "Content Rating"),
-            value=["All"], 
-            multi=True
-        ),
-        html.Br()
+            dbc.Label("Select Content Rating:"),
+            dcc.Dropdown(
+                id="content-rating-filter",
+                options=get_dropdown_options(df, "Content Rating"),
+                value=["All"], 
+                multi=True
+            ),
+            html.Br()
         ],
-        className="h-80",
+        className="filter-80",
         style={
             'background-color': '#e6e6e6',
             'padding': 10,
             'border-radius': 3,
-        }) 
+            'height': 'calc(100vh - 100px)',
+            'overflow-y': 'auto',
+        })
     ]
 
 def create_layout(df):
+    # Filters
     global_filters = create_global_filters(df)
 
+    # Make charts
     install_chart = dbc.Card([
         dbc.CardHeader('Top 10 App Categories by Installs', style={'fontWeight': 'bold',
                                                                    "textAlign": "center",}),
@@ -100,50 +104,66 @@ def create_layout(df):
     ],
     className="shadow-sm h-100")
 
-    density_plot = dbc.Card([
-        dbc.CardHeader('Density Plot for Ratings', style={'fontWeight': 'bold', "textAlign": "center"}),
-        dbc.CardBody(
-            dvc.Vega(
-            id="density-plot",
-            spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
-            style={"padding": "20%", 
-                   "justifyContent": "center",  
-                   "alignItems": "center",
-                   'width': '100%',
-                   'height': '100%' 
-                   }
-        ))
-    ],
-    className="shadow-sm h-100")
 
-    popularity_histogram = dbc.Card([
-        dbc.CardHeader('Average Popularity Score by Categories', style={'fontWeight': 'bold', "textAlign": "center"}),
+    density_plot = dbc.Card(
+    [
+        dbc.CardHeader(
+            "Density Plot for Ratings",
+            className="fw-bold text-center bg-light border-bottom border-secondary"
+        ),
         dbc.CardBody(
             dvc.Vega(
-            id="popularity-histogram",
-            spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
-            style={"padding": "20%", 
-                   "justifyContent": "center",  
-                   "alignItems": "center",
-                   'width': '100%',
-                   'height': '100%' 
-                   }
-        ))
+                id="density-plot",
+                spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
+                style={
+                    "width": "100%",
+                    "height": "100%"  
+                }
+            ),
+            className="d-flex align-items-center justify-content-center p-0"  
+        )
     ],
-    className="shadow-sm h-100")
+    className="shadow-sm h-100 border-0 rounded"
+)
+
+
+    popularity_histogram = dbc.Card(
+        [
+            dbc.CardHeader(
+                "Average Popularity Score by Categories",
+                className="fw-bold text-center bg-light border-bottom border-secondary"
+            ),
+            dbc.CardBody(
+                dvc.Vega(
+                    id="popularity-histogram",
+                    spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
+                    style={
+                        "width": "100%",
+                        "height": "100%" 
+                    }
+                ),
+                className="d-flex align-items-center justify-content-center p-0" 
+            )
+        ],
+        className="shadow-sm h-100 border-0 rounded"
+    )
+
 
     wordcloud_component = dbc.Card([
-        dbc.CardHeader('Word Cloud of Top Apps', style={'fontWeight': 'bold', "textAlign": "center"}),
+        dbc.CardHeader('Word Cloud of Top Apps', 
+                       className="fw-bold text-center bg-light border-bottom border-primary"),
         dbc.CardBody(
             dcc.Graph(
                 id="wordcloud",
                 figure=create_wordcloud(df, ["All"]),
                 config={"displayModeBar": False},
-                style={'width': '100%', 'height': '100%'}
-            )
+                style={'width': '100%', 
+                       'height': '100%'}
+            ),
+            className="d-flex align-items-center justify-content-center p-0" 
         )
     ],
-    className="shadow-sm h-100")
+    className="shadow-sm h-100 border-0 rounded")
 
     return dbc.Container([
         dbc.Row([
@@ -189,6 +209,7 @@ def create_layout(df):
                     ),
                 ], className="mt-3 mb-4", justify="center"),
 
+                # Charts
                 dbc.Row([
                     dbc.Col(popularity_histogram, md=6),
                     dbc.Col(make_engagement_chart, md=6)
