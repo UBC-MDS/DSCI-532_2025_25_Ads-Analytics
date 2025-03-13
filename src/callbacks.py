@@ -31,10 +31,11 @@ def register_callbacks(app, df):
          Input("category-filter", "value")]
     )
     def update_charts(selected_types, rating_range, selected_ratings, selected_categories):
-        # If any required filter is empty, return blank outputs
+        # If any required filter is empty, return a message indicating no data
         if not selected_types or not rating_range or not selected_ratings or not selected_categories:
+            no_data_msg = {"mark": "text", "encoding": {"text": {"value": "No data selected"}}}
             return (
-                {}, {}, "-", "-", "-", [], {}, {}
+                no_data_msg, no_data_msg, "No data", "No data", "No data", [], no_data_msg, {}
             )
 
         # Handle "All" selection for filters
@@ -58,10 +59,10 @@ def register_callbacks(app, df):
             (df["Category"].isin(selected_categories))
         ]
 
-        # If no data after filtering, return blank outputs
+        # If no data after filtering, return a message
         if filtered_df.empty:
             return (
-                {}, {}, "-", "-", "-", selected_categories, {}, {}
+                no_data_msg, no_data_msg, "No data", "No data", "No data", selected_categories, no_data_msg, {}
             )
 
         # Calculate mean statistics
