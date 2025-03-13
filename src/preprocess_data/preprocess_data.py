@@ -84,6 +84,9 @@ def clean_and_save_data():
         top_categories = category_popularity_avg.sort_values(by='avg_popularity_score', ascending=False).head(10)['Category'].tolist()
         df_score = df[df['Category'].isin(top_categories)]
 
+        # Drop unncessary columns
+        df_score = df_score.drop(["Size", "Price", "Genres"], axis=1)
+
         output_dir = "../../data/preprocessed"
         os.makedirs(output_dir, exist_ok=True)
 
