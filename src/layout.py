@@ -14,6 +14,17 @@ from src.charts.install_chart import installs_chart
 def create_global_filters(df):
     return [
         dbc.Col([
+            html.H1([
+                html.Img(src='assets/android-chrome-192x192.png', height='50px'),
+                " Playstore Apps Ads Analytics"
+            ], 
+            className="text-center mb-3",
+            style={
+                'padding': '5px',
+                'backgroundColor': 'white'
+            }),
+            html.Br(),
+
             html.H5('Global controls'),
             html.Br(),
 
@@ -58,11 +69,10 @@ def create_global_filters(df):
         ],
         className="filter-80",
         style={
-            'background-color': '#e6e6e6',
+            'background-color': 'white',
             'padding': 10,
             'border-radius': 3,
-            'height': 'calc(100vh - 100px)',
-            'overflow-y': 'auto',
+            'height': '100%'
         })
     ]
 
@@ -165,65 +175,8 @@ def create_layout(df):
     ],
     className="shadow-sm h-100 border-0 rounded")
 
-    return dbc.Container([
-        dbc.Row([
-            dbc.Col([ 
-                html.H1([
-                    html.Img(src='assets/android-chrome-192x192.png', height='50px'),
-                    " Playstore Apps Ads Analytics"], className="text-center mb-3"),
-                html.Br(),
-                *global_filters
-            ], md=2),
-
-            dbc.Col([
-                dbc.Row([
-                    dbc.Col(
-                        dbc.Card([
-                            dbc.CardHeader(html.Span("Average Rating", className="fw-bold text-dark"),
-                                           className="text-center bg-light border-bottom border-3",
-                                           style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
-                            dbc.CardBody(html.H3(id="mean-rating", className="fw-bold", style={"color": "#34A853"}), 
-                                         className="d-flex align-items-center justify-content-center p-4"),
-                        ], className="text-center shadow-sm border-0 rounded mb-3"),
-                        md=4
-                    ),
-                    dbc.Col(
-                        dbc.Card([
-                            dbc.CardHeader(html.Span("Average Reviews", className="fw-bold text-dark"),
-                                           className="text-center bg-light border-bottom border-3",
-                                           style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
-                            dbc.CardBody(html.H3(id="mean-reviews", className="fw-bold", style={"color": "#4285F4"}),  
-                                         className="d-flex align-items-center justify-content-center p-4"),
-                        ], className="text-center shadow-sm border-0 rounded mb-3"),
-                        md=4
-                    ),
-                    dbc.Col(
-                        dbc.Card([
-                            dbc.CardHeader(html.Span("Average Installs", className="fw-bold text-dark"),
-                                           className="text-center bg-light border-bottom border-3",
-                                           style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
-                            dbc.CardBody(html.H3(id="mean-installs", className="fw-bold", style={"color": "#FBBC05"}), 
-                                         className="d-flex align-items-center justify-content-center p-4"),
-                        ], className="text-center shadow-sm border-0 rounded mb-3"),
-                        md=4
-                    ),
-                ], className="mt-3 mb-4", justify="center"),
-
-                # Charts
-                dbc.Row([
-                    dbc.Col(popularity_histogram, md=6),
-                    dbc.Col(make_engagement_chart, md=6)
-                ]),
-
-                dbc.Row([
-                    dbc.Col(density_plot, md=6),
-                    dbc.Col(wordcloud_component, md=6)
-                ])
-            ], md=10)
-        ], className="border-top pt-3"),
-
-         # Footer
-        dbc.Row(dbc.Col([
+    # Make footer
+    footer = dbc.Row(dbc.Col([
             html.Hr(),
             html.H6('This dashboard helps advertisement companies identify the most promising Google Play Store apps for ad placements by analyzing app metrics such as user engagement and ratings', 
                     className="text-center fw-light mb-4",
@@ -234,4 +187,68 @@ def create_layout(df):
             html.P("Last Updated: March 2025", className="text-center fw-light"),
             html.P([html.A("Adwords icons created by Freepik - Flaticon", href="https://www.flaticon.com/free-icons/adwords", title="adwords icons")], className="text-center fw-light mt-3")
         ], width=12, className="text-center mt-4"))
-    ], fluid=True)
+
+    return dbc.Container([
+        dbc.Row([
+            dbc.Col([ 
+                *global_filters
+            ], md=2),
+
+            dbc.Col([
+                dbc.Row([
+                    dbc.Col(
+                        dbc.Card([
+                            dbc.CardHeader(html.Span("Average Rating", className="fw-bold text-dark"),
+                                        className="text-center bg-light border-bottom border-3",
+                                        style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
+                            dbc.CardBody(html.H3(id="mean-rating", className="fw-bold", style={"color": "#34A853"}), 
+                                        className="d-flex align-items-center justify-content-center p-4"),
+                        ], className="text-center shadow-sm border-0 rounded mb-3"),
+                        md=4
+                    ),
+                    dbc.Col(
+                        dbc.Card([
+                            dbc.CardHeader(html.Span("Average Reviews", className="fw-bold text-dark"),
+                                        className="text-center bg-light border-bottom border-3",
+                                        style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
+                            dbc.CardBody(html.H3(id="mean-reviews", className="fw-bold", style={"color": "#4285F4"}),  
+                                        className="d-flex align-items-center justify-content-center p-4"),
+                        ], className="text-center shadow-sm border-0 rounded mb-3"),
+                        md=4
+                    ),
+                    dbc.Col(
+                        dbc.Card([
+                            dbc.CardHeader(html.Span("Average Installs", className="fw-bold text-dark"),
+                                        className="text-center bg-light border-bottom border-3",
+                                        style={"borderImage": "linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) 1"}),
+                            dbc.CardBody(html.H3(id="mean-installs", className="fw-bold", style={"color": "#FBBC05"}), 
+                                        className="d-flex align-items-center justify-content-center p-4"),
+                        ], className="text-center shadow-sm border-0 rounded mb-3"),
+                        md=4
+                    ),
+                ], 
+                className="mt-3 mb-4", 
+                justify="center"),
+
+                dbc.Row([
+                    dbc.Col(dbc.Card([
+                        dbc.CardBody([
+                            dbc.Row([
+                                dbc.Col(popularity_histogram, md=6),
+                                dbc.Col(make_engagement_chart, md=6)
+                            ]),
+                            dbc.Row([
+                                dbc.Col(density_plot, md=6),
+                                dbc.Col(wordcloud_component, md=6)
+                            ])
+                        ])
+                    ], style={"backgroundColor": "#f8f9fa", "paddingTop": "10px", "paddingBottom": "10px"}), md=12)
+                ])
+
+            ], md=10)
+        ], className="border-top pt-3"),
+
+        # Footer
+        footer
+    ], fluid=True, style={"backgroundColor": "#add8e6"})
+
