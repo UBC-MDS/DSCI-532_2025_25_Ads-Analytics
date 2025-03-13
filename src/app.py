@@ -10,6 +10,9 @@ df = load_data("data/preprocessed/clean_data_score.csv")
 
 # Initialize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.UNITED])
+app.title = 'Ads Analytics'
+app._favicon = ("src/assets/favicon.ico")
+
 server = app.server
 
 # Create the layout
