@@ -149,12 +149,7 @@ def create_layout(df):
         dbc.Row([
             dbc.Col([ 
                 html.H1([
-                    html.Span("G", style={"color": "#4285F4", "fontWeight": "bold"}), 
-                    html.Span("o", style={"color": "#EA4335", "fontWeight": "bold"}),
-                    html.Span("o", style={"color": "#FBBC05", "fontWeight": "bold"}), 
-                    html.Span("g", style={"color": "#4285F4", "fontWeight": "bold"}), 
-                    html.Span("l", style={"color": "#34A853", "fontWeight": "bold"}),  
-                    html.Span("e", style={"color": "#EA4335", "fontWeight": "bold"}), 
+                    html.Img(src='assets/android-chrome-192x192.png', height='50px'),
                     " Playstore Apps Ads Analytics"], className="text-center mb-3"),
                 html.Br(),
                 *global_filters
