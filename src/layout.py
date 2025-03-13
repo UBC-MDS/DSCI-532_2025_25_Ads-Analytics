@@ -100,67 +100,50 @@ def create_layout(df):
     ],
     className="shadow-sm h-100")
 
-
-    density_plot = dbc.Card(
-    [
-        dbc.CardHeader(
-            "Density Plot for Ratings",
-            className="fw-bold text-center bg-light border-bottom border-secondary"
-        ),
+    density_plot = dbc.Card([
+        dbc.CardHeader('Density Plot for Ratings', style={'fontWeight': 'bold', "textAlign": "center"}),
         dbc.CardBody(
             dvc.Vega(
-                id="density-plot",
-                spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
-                style={
-                    "width": "100%",
-                    "height": "100%"  
-                }
-            ),
-            className="d-flex align-items-center justify-content-center p-0"  
-        )
+            id="density-plot",
+            spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
+            style={"padding": "20%", 
+                   "justifyContent": "center",  
+                   "alignItems": "center",
+                   'width': '100%',
+                   'height': '100%' 
+                   }
+        ))
     ],
-    className="shadow-sm h-100 border-0 rounded"
-)
+    className="shadow-sm h-100")
 
-
-    popularity_histogram = dbc.Card(
-        [
-            dbc.CardHeader(
-                "Average Popularity Score by Categories",
-                className="fw-bold text-center bg-light border-bottom border-secondary"
-            ),
-            dbc.CardBody(
-                dvc.Vega(
-                    id="popularity-histogram",
-                    spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
-                    style={
-                        "width": "100%",
-                        "height": "100%" 
-                    }
-                ),
-                className="d-flex align-items-center justify-content-center p-0" 
-            )
-        ],
-        className="shadow-sm h-100 border-0 rounded"
-    )
-
+    popularity_histogram = dbc.Card([
+        dbc.CardHeader('Average Popularity Score by Categories', style={'fontWeight': 'bold', "textAlign": "center"}),
+        dbc.CardBody(
+            dvc.Vega(
+            id="popularity-histogram",
+            spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
+            style={"padding": "20%", 
+                   "justifyContent": "center",  
+                   "alignItems": "center",
+                   'width': '100%',
+                   'height': '100%' 
+                   }
+        ))
+    ],
+    className="shadow-sm h-100")
 
     wordcloud_component = dbc.Card([
-        dbc.CardHeader('Word Cloud of Top Apps', 
-                       className="fw-bold text-center bg-light border-bottom border-primary"),
+        dbc.CardHeader('Word Cloud of Top Apps', style={'fontWeight': 'bold', "textAlign": "center"}),
         dbc.CardBody(
             dcc.Graph(
                 id="wordcloud",
                 figure=create_wordcloud(df, ["All"]),
                 config={"displayModeBar": False},
-                style={'width': '100%', 
-                       'height': '100%'}
-            ),
-            className="d-flex align-items-center justify-content-center p-0" 
+                style={'width': '100%', 'height': '100%'}
+            )
         )
     ],
-    className="shadow-sm h-100 border-0 rounded")
-
+    className="shadow-sm h-100")
 
     return dbc.Container([
         dbc.Row([
@@ -212,14 +195,26 @@ def create_layout(df):
                 ], className="mt-3 mb-4", justify="center"),
 
                 dbc.Row([
-                    dbc.Col(popularity_histogram, md=6),  # Moved to top-left
+                    dbc.Col(popularity_histogram, md=6),
                     dbc.Col(make_engagement_chart, md=6)
                 ]),
 
                 dbc.Row([
                     dbc.Col(density_plot, md=6),
-                    dbc.Col(wordcloud_component, md=6)  # Moved Word Cloud here
+                    dbc.Col(wordcloud_component, md=6)
                 ])
             ], md=10)
-        ], className="border-top pt-3")
+        ], className="border-top pt-3"),
+
+         # Footer
+        dbc.Row(dbc.Col([
+            html.Hr(),
+            html.H6('This dashboard helps advertisement companies identify the most promising Google Play Store apps for ad placements by analyzing app metrics such as user engagement and ratings', 
+                    className="text-center fw-light mb-4",
+                    style={"maxWidth": "60%", "margin": "auto", "whiteSpace": "normal", "wordWrap": "break-word"}
+                    ),
+            html.P("Project by: Quanhua Huang, Yeji Sohn, Lukman Lateef, Ismail (Husain) Bhinderwala", className="text-center fw-light"),
+            html.P(["GitHub Repository: ", html.A("Link to Repo", href="https://github.com/UBC-MDS/DSCI-532_2025_25_Ads-Analytics", target="_blank")], className="text-center"),
+            html.P("Last Updated: March 2025", className="text-center fw-light")
+        ], width=12, className="text-center mt-4"))
     ], fluid=True)
