@@ -1,9 +1,9 @@
 # app.py
 from dash import Dash
 import dash_bootstrap_components as dbc
-from src.data_import import load_data
-from src.layout import create_layout
-from src.callbacks import register_callbacks
+from src.data.data_import import load_data
+from src.components.layout import create_layout
+from src.callbacks.callbacks import register_callbacks
 
 # Load the data
 df = load_data("data/preprocessed/clean_data_score.parquet")

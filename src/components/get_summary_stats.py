@@ -27,25 +27,13 @@ def get_summary_stats(filtered_df):
         print(stats)
     """
     mean_rating = filtered_df['Rating'].mean()
-    min_rating = filtered_df['Rating'].min()
-    max_rating = filtered_df['Rating'].max()
 
     mean_installs = filtered_df['Installs'].mean()
-    min_installs = filtered_df['Installs'].min()
-    max_installs = filtered_df['Installs'].max()
 
     mean_reviews = filtered_df['Reviews'].mean()
-    min_reviews = filtered_df['Reviews'].min()
-    max_reviews = filtered_df['Reviews'].max()
 
     return {
         "mean_rating": round(mean_rating, 2),
-        "min_rating": min_rating,
-        "max_rating": max_rating,
         "mean_installs": round(mean_installs, 0),
-        "min_installs": min_installs,
-        "max_installs": max_installs,
-        "mean_reviews": round(mean_reviews, 0),
-        "min_reviews": min_reviews,
-        "max_reviews": max_reviews,
+        "mean_reviews": round(mean_reviews, 0)
     }

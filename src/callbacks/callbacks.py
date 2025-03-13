@@ -2,7 +2,7 @@ from dash import Input, Output, ctx
 import pandas as pd
 
 from src.charts.engagement_chart import engagement_chart
-from src.get_summary_stats import get_summary_stats
+from src.components.get_summary_stats import get_summary_stats
 from src.charts.make_density_plot import make_density_plot
 from src.charts.make_reviews_histogram import make_reviews_histogram
 from src.charts.ranking_chart import create_wordcloud 
@@ -30,6 +30,7 @@ def register_callbacks(app, df):
          Input("content-rating-filter", "value"),
          Input("category-filter", "value")]
     )
+    
     def update_charts(selected_types, rating_range, selected_ratings, selected_categories):
         # If any required filter is empty, return a message indicating no data
         if not selected_types or not rating_range or not selected_ratings or not selected_categories:
@@ -67,9 +68,6 @@ def register_callbacks(app, df):
 
         # Calculate mean statistics
         stats = get_summary_stats(filtered_df)
-        mean_rating = f"{stats['mean_rating']:.2f}"
-        mean_reviews = f"{stats['mean_reviews']:,.0f}"
-        mean_installs = f"{stats['mean_installs']:,.0f}"
 
         # Determine if "All" should remain selected
         updated_categories = (
@@ -80,9 +78,9 @@ def register_callbacks(app, df):
         return (
             make_popularity_score(filtered_df, updated_categories).to_dict(format="vega"),
             engagement_chart(filtered_df, updated_categories).to_dict(format="vega"),
-            mean_rating,
-            mean_reviews,
-            mean_installs,
+            f"{stats['mean_rating']:.2f}",
+            f"{stats['mean_reviews']:,.0f}",
+            f"{stats['mean_installs']:,.0f}",
             updated_categories,
             make_density_plot(filtered_df, updated_categories).to_dict(format="vega"),
             create_wordcloud(filtered_df, updated_categories)
@@ -93,6 +91,7 @@ def register_callbacks(app, df):
         Input("app-type-filter", "value"),
         prevent_initial_call=True
     )
+
     def update_app_type_selection(selected_types):
         """
         Ensures that selecting 'All' in App Type filter disables other selections and vice versa.

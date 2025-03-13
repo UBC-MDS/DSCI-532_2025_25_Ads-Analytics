@@ -2,11 +2,10 @@
 from dash import Dash, dcc, html, Input, Output, dash_table
 import dash_bootstrap_components as dbc
 import dash_vega_components as dvc
-from src.data_import import get_dropdown_options
+from src.data.data_import import get_dropdown_options
 from src.charts.engagement_chart import engagement_chart
-from src.get_summary_stats import get_summary_stats
+from src.components.get_summary_stats import get_summary_stats
 from src.charts.make_density_plot import make_density_plot
-from src.charts.make_reviews_histogram import make_reviews_histogram
 from src.charts.ranking_chart import create_wordcloud 
 from src.charts.make_popularity_score import make_popularity_score
 from src.charts.install_chart import installs_chart
