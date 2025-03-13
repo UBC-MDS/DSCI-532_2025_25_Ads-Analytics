@@ -35,8 +35,10 @@ def clean_and_save_data():
 
     Notes
     -----
+    This function MUST be ran from the project directory.
+    e.g. python src/utils/prepreocess_data.py
     The cleaned data is saved as "clean_data.csv" in the relative path:
-    "../../data/preprocessed". The 'preprocessed' directory will be created
+    "data/preprocessed". The 'preprocessed' directory will be created
     if it does not already exist.
 
     Example
@@ -44,11 +46,11 @@ def clean_and_save_data():
     To clean the data and save it:
     
     >>> clean_and_save_data()
-    Cleaned data saved to ../../data/preprocessed/clean_data.csv
+    Cleaned data saved to data/preprocessed/clean_data.csv
     """
     
     try:
-        df = pd.read_csv("../../data/raw/googleplaystore.csv")
+        df = pd.read_csv("data/raw/googleplaystore.csv")
 
         df.drop(df[df['Rating'] > 5].index, inplace=True)
         df.reset_index(drop=True, inplace=True)
@@ -84,7 +86,10 @@ def clean_and_save_data():
         top_categories = category_popularity_avg.sort_values(by='avg_popularity_score', ascending=False).head(10)['Category'].tolist()
         df_score = df[df['Category'].isin(top_categories)]
 
-        output_dir = "../../data/preprocessed"
+        # Drop unncessary columns
+        df_score = df_score.drop(["Size", "Price", "Genres"], axis=1)
+
+        output_dir = "data/preprocessed"
         os.makedirs(output_dir, exist_ok=True)
 
         cleaned_file_path = os.path.join(output_dir, "clean_data.csv")
