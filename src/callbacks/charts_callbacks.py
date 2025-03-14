@@ -20,7 +20,7 @@ def register_charts_callbacks(app, df):
     df (pd.DataFrame): The DataFrame containing the data.
     """
 
-
+    @cache.memoize()
     def filter_dataframe(selected_types, rating_range, selected_ratings, selected_categories):
         """
         Filter the DataFrame based on the selected filters.
