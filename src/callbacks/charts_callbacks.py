@@ -1,6 +1,6 @@
 # callbacks/charts_callbacks.py
 
-from dash import Input, Output
+from dash import Input, Output, State
 import pandas as pd
 from src.charts.engagement_chart import engagement_chart
 from src.components.get_summary_stats import get_summary_stats
@@ -11,14 +11,10 @@ from src.charts.make_popularity_score import make_popularity_score
 def register_charts_callbacks(app, df):
     """
     Register callbacks related to updating charts and visualizations.
-
-    Parameters:
-    app (Dash): The Dash app instance.
-    df (pd.DataFrame): The DataFrame containing the data.
     """
-
     @app.callback(
-        [Output("popularity-histogram", "spec"),
+        [Output("filters-store", "data"),  # Store the filter values in dcc.Store
+         Output("popularity-histogram", "spec"),
          Output("engagement-chart", "spec"),
          Output("mean-rating", "children"),
          Output("mean-reviews", "children"),
@@ -26,28 +22,33 @@ def register_charts_callbacks(app, df):
          Output("category-filter", "value"),
          Output("density-plot", "spec"),
          Output("wordcloud", "figure")],
-        [Input("app-type-filter", "value"),
-         Input("rating-slider", "value"),
-         Input("content-rating-filter", "value"),
-         Input("category-filter", "value")]
+        [Input("apply-filters", "n_clicks")],
+        [State("app-type-filter", "value"),
+         State("rating-slider", "value"),
+         State("content-rating-filter", "value"),
+         State("category-filter", "value")],
+        prevent_initial_call=True
     )
-    def update_charts(selected_types, rating_range, selected_ratings, selected_categories):
+    def update_charts_on_apply(n_clicks, selected_types, rating_range, selected_ratings, selected_categories):
         """
-        Update all charts and summary statistics based on the selected filters.
-
-        Parameters:
-        selected_types (list): Selected app types.
-        rating_range (list): Selected rating range.
-        selected_ratings (list): Selected content ratings.
-        selected_categories (list): Selected categories.
-
-        Returns:
-        tuple: Updated chart specifications and summary statistics.
+        Update all charts and summary statistics based on the selected filters when the 'Apply Filters' button is clicked.
         """
+        if n_clicks is None:
+            return dash.no_update
+
+        # Store filter values
+        filters_data = {
+            "selected_types": selected_types,
+            "rating_range": rating_range,
+            "selected_ratings": selected_ratings,
+            "selected_categories": selected_categories
+        }
+
         # If any required filter is empty, return a message indicating no data
         if not selected_types or not rating_range or not selected_ratings or not selected_categories:
             no_data_msg = {"mark": "text", "encoding": {"text": {"value": "No data selected"}}}
             return (
+                filters_data,
                 no_data_msg, no_data_msg, "No data", "No data", "No data", [], no_data_msg, {}
             )
 
@@ -75,6 +76,7 @@ def register_charts_callbacks(app, df):
         # If no data after filtering, return a message
         if filtered_df.empty:
             return (
+                filters_data,
                 no_data_msg, no_data_msg, "No data", "No data", "No data", selected_categories, no_data_msg, {}
             )
 
@@ -88,6 +90,7 @@ def register_charts_callbacks(app, df):
 
         # Return updated components
         return (
+            filters_data,
             make_popularity_score(filtered_df, updated_categories).to_dict(format="vega"),
             engagement_chart(filtered_df, updated_categories).to_dict(format="vega"),
             f"{stats['mean_rating']:.2f}",
