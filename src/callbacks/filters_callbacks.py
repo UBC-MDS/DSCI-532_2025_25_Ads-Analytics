@@ -25,9 +25,13 @@ def register_filters_callbacks(app):
         Returns:
         list: Updated selected app types.
         """
-        if "All" in selected_types and len(selected_types) > 1:
-            return ["All"]  # Reset to "All" only
-        return selected_types  # Allow other selections if "All" is not selected
+        if any(type_ != "All" for type_ in selected_types):
+            # If any type other than "All" is selected, clear "All" from the selection
+            return [type_ for type_ in selected_types if type_ != "All"]
+        else:
+            # If only "All" is selected, return ["All"]
+            return ["All"]
+        return selected_types
 
     @app.callback(
         Output("content-rating-filter", "value"),
@@ -44,6 +48,10 @@ def register_filters_callbacks(app):
         Returns:
         list: Updated selected content ratings.
         """
-        if "All" in selected_ratings and len(selected_ratings) > 1:
-            return ["All"]  # Reset to "All" only
-        return selected_ratings  # Allow other selections if "All" is not selected
+        if any(type_ != "All" for type_ in selected_ratings):
+            # If any type other than "All" is selected, clear "All" from the selection
+            return [type_ for type_ in selected_ratings if type_ != "All"]
+        else:
+            # If only "All" is selected, return ["All"]
+            return ["All"]
+        return selected_ratings
