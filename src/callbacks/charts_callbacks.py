@@ -2,26 +2,59 @@
 
 from dash import Input, Output, State
 import pandas as pd
+
 from src.charts.engagement_chart import engagement_chart
 from src.components.get_summary_stats import get_summary_stats
 from src.charts.make_density_plot import make_density_plot
 from src.charts.ranking_chart import create_wordcloud
 from src.charts.make_popularity_score import make_popularity_score
 
+from src.utils.cache import cache
+
 def register_charts_callbacks(app, df):
     """
     Register callbacks related to updating charts and visualizations.
+
+    Parameters:
+    app (Dash): The Dash app instance.
+    df (pd.DataFrame): The DataFrame containing the data.
     """
+
+    @cache.memoize()
+    def filter_dataframe(selected_types, rating_range, selected_ratings, selected_categories):
+        """
+        Filter the DataFrame based on the selected filters.
+        """
+        if "All" in selected_types:
+            selected_types = df["Type"].unique()
+        if "All" in selected_ratings:
+            selected_ratings = df["Content Rating"].unique()
+        if "All" in selected_categories:
+            selected_categories = df["Category"].unique()
+
+        # Limit to 4 categories for better visualization
+        elif len(selected_categories) > 4:
+            selected_categories = selected_categories[:4]
+
+        min_rating, max_rating = rating_range
+        filtered_df = df[
+            (df["Type"].isin(selected_types)) &
+            (df["Rating"] >= min_rating) & (df["Rating"] <= max_rating) &
+            (df["Content Rating"].isin(selected_ratings)) &
+            (df["Category"].isin(selected_categories))
+        ]
+        return filtered_df
+
     @app.callback(
         [Output("filters-store", "data"),  # Store the filter values in dcc.Store
          Output("popularity-histogram", "spec"),
          Output("engagement-chart", "spec"),
+         Output("density-plot", "spec"),
+         Output("wordcloud", "figure"),
          Output("mean-rating", "children"),
          Output("mean-reviews", "children"),
          Output("mean-installs", "children"),
-         Output("category-filter", "value"),
-         Output("density-plot", "spec"),
-         Output("wordcloud", "figure")],
+         Output("category-filter", "value")],
         [Input("apply-filters", "n_clicks")],
         [State("app-type-filter", "value"),
          State("rating-slider", "value"),
@@ -31,7 +64,8 @@ def register_charts_callbacks(app, df):
     )
     def update_charts_on_apply(n_clicks, selected_types, rating_range, selected_ratings, selected_categories):
         """
-        Update all charts and summary statistics based on the selected filters when the 'Apply Filters' button is clicked.
+        Update all charts and summary statistics based on the selected filters 
+        when the 'Apply Filters' button is clicked.
         """
         if n_clicks is None:
             return dash.no_update
@@ -49,35 +83,17 @@ def register_charts_callbacks(app, df):
             no_data_msg = {"mark": "text", "encoding": {"text": {"value": "No data selected"}}}
             return (
                 filters_data,
-                no_data_msg, no_data_msg, "No data", "No data", "No data", [], no_data_msg, {}
+                no_data_msg, no_data_msg, no_data_msg, {},
+                "No data", "No data", "No data", []
             )
 
-        # Handle "All" selection for filters
-        if "All" in selected_types:
-            selected_types = df["Type"].unique()
-        if "All" in selected_ratings:
-            selected_ratings = df["Content Rating"].unique()
-        if "All" in selected_categories:
-            selected_categories = df["Category"].unique()
-
-        # Limit to 4 categories for better visualization
-        elif len(selected_categories) > 4:
-            selected_categories = selected_categories[:4]
-
-        # Apply filters to the DataFrame
-        min_rating, max_rating = rating_range
-        filtered_df = df[
-            (df["Type"].isin(selected_types)) &
-            (df["Rating"] >= min_rating) & (df["Rating"] <= max_rating) &
-            (df["Content Rating"].isin(selected_ratings)) &
-            (df["Category"].isin(selected_categories))
-        ]
-
-        # If no data after filtering, return a message
+        filtered_df = filter_dataframe(selected_types, rating_range, selected_ratings, selected_categories)
         if filtered_df.empty:
+            no_data_msg = {"mark": "text", "encoding": {"text": {"value": "No data selected"}}}
             return (
                 filters_data,
-                no_data_msg, no_data_msg, "No data", "No data", "No data", selected_categories, no_data_msg, {}
+                no_data_msg, no_data_msg, no_data_msg, {},
+                "No data", "No data", "No data", selected_categories
             )
 
         # Calculate mean statistics
@@ -93,10 +109,10 @@ def register_charts_callbacks(app, df):
             filters_data,
             make_popularity_score(filtered_df, updated_categories).to_dict(format="vega"),
             engagement_chart(filtered_df, updated_categories).to_dict(format="vega"),
+            make_density_plot(filtered_df, updated_categories).to_dict(format="vega"),
+            create_wordcloud(filtered_df, updated_categories),
             f"{stats['mean_rating']:.2f}",
             f"{stats['mean_reviews']:,.0f}",
             f"{stats['mean_installs']:,.0f}",
-            updated_categories,
-            make_density_plot(filtered_df, updated_categories).to_dict(format="vega"),
-            create_wordcloud(filtered_df, updated_categories)
+            updated_categories
         )
