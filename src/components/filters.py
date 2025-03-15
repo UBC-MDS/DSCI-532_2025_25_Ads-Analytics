@@ -56,7 +56,9 @@ def create_global_filters(df):
                 value=["All"], 
                 multi=True
             ),
-            html.Br()
+            html.Br(),
+
+            dbc.Button("Apply Filters", id="apply-filters", color="primary", style={'width': '100%'}, className="mt-3")
         ],
         className="filter-80",
         style={
@@ -64,5 +66,7 @@ def create_global_filters(df):
             'padding': 10,
             'border-radius': 3,
             'height': '100%'
-        })
+        }),
+
+        dcc.Store(id="filters-store", storage_type="memory")
     ]
