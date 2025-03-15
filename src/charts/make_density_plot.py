@@ -47,13 +47,17 @@ def make_density_plot(df, categories):
     if "All" not in categories:
         df = df[df["Category"].isin(categories)]
 
+    min_rating = df['Rating'].min()
+    max_rating = df['Rating'].max()
+
     boxplot_chart = alt.Chart(df).mark_boxplot().encode(
-        y='Category:N',  
-        x='Rating:Q',   
+        y=alt.Y('Category:N', axis=None),  
+        x=alt.X('Rating:Q', scale=alt.Scale(domain=[min_rating, max_rating])),   
         color=alt.Color('Category:N' if len(categories) <= 4 else alt.value('steelblue'), scale=alt.Scale(domain=list(category_to_color.keys()), range=list(category_to_color.values())),legend=None)
     ).properties(
-        width=400, height=290,
-        title = "Ratings for each Category"
+        height=350,
+        width=300
+        # title = "Ratings for each Category"
     )
 
     return boxplot_chart

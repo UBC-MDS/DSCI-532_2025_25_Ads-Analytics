@@ -1,31 +1,30 @@
-from dash import Input, Output, ctx
-import pandas as pd
+# callbacks/charts_callbacks.py
 
-from src.charts.install_chart import installs_chart
+from dash import Input, Output
+import pandas as pd
 from src.charts.engagement_chart import engagement_chart
-from src.get_summary_stats import get_summary_stats
+from src.components.get_summary_stats import get_summary_stats
 from src.charts.make_density_plot import make_density_plot
-from src.charts.make_reviews_histogram import make_reviews_histogram
-from src.charts.ranking_chart import create_wordcloud 
+from src.charts.ranking_chart import create_wordcloud
 from src.charts.make_popularity_score import make_popularity_score
 
-def register_callbacks(app, df):
+def register_charts_callbacks(app, df):
     """
-    Register all callbacks for the Dash app.
+    Register callbacks related to updating charts and visualizations.
 
     Parameters:
     app (Dash): The Dash app instance.
     df (pd.DataFrame): The DataFrame containing the data.
     """
+
     @app.callback(
-        [Output("category-chart", "spec"),
+        [Output("popularity-histogram", "spec"),
          Output("engagement-chart", "spec"),
          Output("mean-rating", "children"),
          Output("mean-reviews", "children"),
          Output("mean-installs", "children"),
          Output("category-filter", "value"),
          Output("density-plot", "spec"),
-         Output("popularity-histogram", "spec"),
          Output("wordcloud", "figure")],
         [Input("app-type-filter", "value"),
          Input("rating-slider", "value"),
@@ -33,10 +32,23 @@ def register_callbacks(app, df):
          Input("category-filter", "value")]
     )
     def update_charts(selected_types, rating_range, selected_ratings, selected_categories):
-        # If any required filter is empty, return blank outputs
+        """
+        Update all charts and summary statistics based on the selected filters.
+
+        Parameters:
+        selected_types (list): Selected app types.
+        rating_range (list): Selected rating range.
+        selected_ratings (list): Selected content ratings.
+        selected_categories (list): Selected categories.
+
+        Returns:
+        tuple: Updated chart specifications and summary statistics.
+        """
+        # If any required filter is empty, return a message indicating no data
         if not selected_types or not rating_range or not selected_ratings or not selected_categories:
+            no_data_msg = {"mark": "text", "encoding": {"text": {"value": "No data selected"}}}
             return (
-                {}, {}, "-", "-", "-", [], {}, {}, {}
+                no_data_msg, no_data_msg, "No data", "No data", "No data", [], no_data_msg, {}
             )
 
         # Handle "All" selection for filters
@@ -60,17 +72,14 @@ def register_callbacks(app, df):
             (df["Category"].isin(selected_categories))
         ]
 
-        # If no data after filtering, return blank outputs
+        # If no data after filtering, return a message
         if filtered_df.empty:
             return (
-                {}, {}, "-", "-", "-", selected_categories, {}, {}, {}
+                no_data_msg, no_data_msg, "No data", "No data", "No data", selected_categories, no_data_msg, {}
             )
 
         # Calculate mean statistics
         stats = get_summary_stats(filtered_df)
-        mean_rating = f"{stats['mean_rating']:.2f}"
-        mean_reviews = f"{stats['mean_reviews']:.0f}"
-        mean_installs = f"{stats['mean_installs']:.0f}"
 
         # Determine if "All" should remain selected
         updated_categories = (
@@ -79,39 +88,12 @@ def register_callbacks(app, df):
 
         # Return updated components
         return (
-            installs_chart(filtered_df).to_dict(format="vega"),
+            make_popularity_score(filtered_df, updated_categories).to_dict(format="vega"),
             engagement_chart(filtered_df, updated_categories).to_dict(format="vega"),
-            mean_rating,
-            mean_reviews,
-            mean_installs,
+            f"{stats['mean_rating']:.2f}",
+            f"{stats['mean_reviews']:,.0f}",
+            f"{stats['mean_installs']:,.0f}",
             updated_categories,
             make_density_plot(filtered_df, updated_categories).to_dict(format="vega"),
-            make_popularity_score(filtered_df, updated_categories).to_dict(format="vega"),
             create_wordcloud(filtered_df, updated_categories)
         )
-
-    @app.callback(
-        Output("app-type-filter", "value"),
-        Input("app-type-filter", "value"),
-        prevent_initial_call=True
-    )
-    def update_app_type_selection(selected_types):
-        """
-        Ensures that selecting 'All' in App Type filter disables other selections and vice versa.
-        """
-        if "All" in selected_types and len(selected_types) > 1:
-            return ["All"]  # Reset to "All" only
-        return selected_types  # Allow other selections if "All" is not selected
-
-    @app.callback(
-        Output("content-rating-filter", "value"),
-        Input("content-rating-filter", "value"),
-        prevent_initial_call=True
-    )
-    def update_content_rating_selection(selected_ratings):
-        """
-        Ensures that selecting 'All' in Content Rating filter disables other selections and vice versa.
-        """
-        if "All" in selected_ratings and len(selected_ratings) > 1:
-            return ["All"]  # Reset to "All" only
-        return selected_ratings  # Allow other selections if "All" is not selected

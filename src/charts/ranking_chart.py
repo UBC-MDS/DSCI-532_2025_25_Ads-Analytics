@@ -1,9 +1,13 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from flask_caching import Cache
 from wordcloud import WordCloud
 from dash import dcc
 import plotly.graph_objects as go
 
+cache = Cache()
+
+#@cache.memoize()
 def create_wordcloud(df, categories):
     """
     Generate a word cloud for the Top 10 App Categories by Installs.
