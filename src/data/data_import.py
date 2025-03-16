@@ -6,12 +6,14 @@ def load_data(filepath):
     Load the dataset from the specified filepath.
     
     Parameters:
-    filepath (str): The path to the CSV file.
+    filepath (str): The path to the data file (csv or parquet).
     
     Returns:
     pd.DataFrame: The loaded DataFrame.
     """
-    return pd.read_csv(filepath)
+    if ".csv" in filepath:
+        return pd.read_csv(filepath)
+    return pd.read_parquet(filepath)
 
 def get_dropdown_options(df, column):
     """
