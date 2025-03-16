@@ -51,26 +51,30 @@ def engagement_chart_component(df):
     ], className="shadow-sm h-100 border-0 rounded")
 
 def density_plot_component(df):
-    density_plot = dbc.Card(
-        [
+    return dbc.Card([
             dbc.CardHeader(
                 "Density Plot for Ratings",
                 className="fw-bold text-center bg-light border-bottom border-secondary"
             ),
             dbc.CardBody(
-                dvc.Vega(
-                id="density-plot",
-                spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
-                style={'width': '100%',
-                    'height': '100%' 
-                    }
-            ),
+                dcc.Loading(  # Add loading indicator
+                id="loading-density-plot",
+                children=[
+                    dvc.Vega(
+                        id="density-plot",
+                        spec=make_density_plot(df, ["All"]).to_dict(format="vega"),
+                        style={'width': '100%',
+                            'height': '100%' 
+                            }
+                    )
+                ]
+                ),
             className="d-flex align-items-center justify-content-center p-0"
             )
         ],
         className="shadow-sm h-100 border-0 rounded")
     
-    return density_plot
+    
 
 def popularity_histogram_component(df):
     popularity_histogram = dbc.Card(
