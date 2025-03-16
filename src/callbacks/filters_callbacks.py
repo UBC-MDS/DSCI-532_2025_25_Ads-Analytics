@@ -9,7 +9,7 @@ def register_filters_callbacks(app):
     Parameters:
     app (Dash): The Dash app instance.
     """
-
+        
     @app.callback(
         Output("app-type-filter", "value"),
         Input("app-type-filter", "value"),

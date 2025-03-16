@@ -1,7 +1,7 @@
 import pandas as pd
 import random
 
-def sample_csv(input_file, output_file, sample_size=2000):
+def sample_csv(input_file, output_file, sample_size=1000):
     # Load CSV file into a DataFrame
     df = pd.read_csv(input_file)
     
@@ -17,4 +17,5 @@ def sample_csv(input_file, output_file, sample_size=2000):
     print(f"Sampled {sample_size} rows and saved to {output_file}")
 
 # Example usage
-sample_csv("clean_data.csv", "sampled_clean_data.csv")
+#sample_csv("clean_data.csv", "sampled_clean_data.csv")
+sample_csv("../../data/preprocessed/clean_data_score.csv", "../../data/preprocessed/clean_data_score_1000.csv")

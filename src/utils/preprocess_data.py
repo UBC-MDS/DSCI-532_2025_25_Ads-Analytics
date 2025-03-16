@@ -15,6 +15,8 @@ def clean_and_save_data():
     - Imputes missing values in the 'Type' column based on the 'Price' column.
     - Converts the 'Installs' column to a numeric format (removing commas and plus signs).
     - Rounds the 'Rating' column to 1 decimal place.
+    - Create a new metric called popularity_score which is a normalized average of Installs,
+    -    Reviews and rating.
     - Saves the cleaned dataset to a CSV file in the 'preprocessed' directory.
 
     Parameters

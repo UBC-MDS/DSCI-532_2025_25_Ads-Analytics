@@ -23,7 +23,7 @@ cache.init_app(
 server = app.server
 
 # Load the data
-df = load_data("data/preprocessed/clean_data_score.parquet")
+df = load_data("data/preprocessed/clean_data_score_1000.parquet")
 
 # Create the layout
 app.layout = create_layout(df)
@@ -32,4 +32,4 @@ app.layout = create_layout(df)
 register_callbacks(app, df)
 
 if __name__ == "__main__":
-    server.run(debug=False)
+    app.run(debug=True)
