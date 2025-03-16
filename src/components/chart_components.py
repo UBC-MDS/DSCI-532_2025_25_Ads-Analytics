@@ -120,9 +120,10 @@ def wordcloud_component(df):
                         style={'width': '100%', 
                             'height': '100%'}
                     )
-                ]
+                ],
+                className="d-flex align-items-center justify-content-center p-0" 
             ),
-            className="d-flex align-items-center justify-content-center p-0" 
+            
         )
     ],
     className="shadow-sm h-100 border-0 rounded")
