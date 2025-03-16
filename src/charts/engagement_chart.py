@@ -46,7 +46,9 @@ def engagement_chart(df, categories):
         color=alt.Color("Category:N", title="Category",
                         scale=alt.Scale(domain=list(category_to_color.keys()), 
                                         range=list(category_to_color.values()))),  
-        opacity=alt.condition(selection, alt.value(0.8), alt.value(0.2)), 
+        opacity=alt.condition(selection, alt.value(0.8), alt.value(0.2)),
+        size=alt.Size("Rating:Q", title="Rating",
+                  scale=alt.Scale(domain=[top_apps["Rating"].min(), top_apps["Rating"].max()], range=[50, 500])),  
         tooltip=["App", "Category", alt.Tooltip("Installs:Q", title="Total Installs"),
                  alt.Tooltip("Reviews:Q", title="Total Reviews"), "Rating"]
     ).properties(
