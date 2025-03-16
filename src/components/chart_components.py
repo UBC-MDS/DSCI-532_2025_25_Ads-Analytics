@@ -77,7 +77,7 @@ def density_plot_component(df):
     
 
 def popularity_histogram_component(df):
-    popularity_histogram = dbc.Card(
+    return dbc.Card(
         [
             dbc.CardHeader(
                 "Average Popularity Score by Categories",
@@ -85,7 +85,7 @@ def popularity_histogram_component(df):
             ),
             dbc.CardBody(
                 dcc.Loading(  # Add loading indicator
-                id="loading-density-plot",
+                id="loading-pop-histogram",
                 children=[
                     dvc.Vega(
                         id="popularity-histogram",
@@ -103,23 +103,28 @@ def popularity_histogram_component(df):
         className="shadow-sm h-100 border-0 rounded"
     )
 
-    return popularity_histogram
+    
 
 def wordcloud_component(df):
-    wordcloud_chart = dbc.Card([
+    return dbc.Card([
         dbc.CardHeader('Word Cloud of Top Apps', 
                        className="fw-bold text-center bg-light border-bottom border-primary"),
         dbc.CardBody(
-            dcc.Graph(
-                id="wordcloud",
-                figure=create_wordcloud(df, ["All"]),
-                config={"displayModeBar": False},
-                style={'width': '100%', 
-                       'height': '100%'}
+            dcc.Loading(  # Add loading indicator
+                id="loading-wordcloud",
+                children=[
+                    dcc.Graph(
+                        id="wordcloud",
+                        figure=create_wordcloud(df, ["All"]),
+                        config={"displayModeBar": False},
+                        style={'width': '100%', 
+                            'height': '100%'}
+                    )
+                ]
             ),
             className="d-flex align-items-center justify-content-center p-0" 
         )
     ],
     className="shadow-sm h-100 border-0 rounded")
 
-    return wordcloud_chart
+    
