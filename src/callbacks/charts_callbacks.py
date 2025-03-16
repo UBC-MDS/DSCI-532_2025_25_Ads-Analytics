@@ -9,7 +9,7 @@ from src.charts.make_density_plot import make_density_plot
 from src.charts.ranking_chart import create_wordcloud
 from src.charts.make_popularity_score import make_popularity_score
 
-from src.utils.cache import cache
+#from src.utils.cache import cache
 
 def register_charts_callbacks(app, df):
     """
@@ -20,7 +20,7 @@ def register_charts_callbacks(app, df):
     df (pd.DataFrame): The DataFrame containing the data.
     """
 
-    @cache.memoize()
+    #@cache.memoize()
     def filter_dataframe(selected_types, rating_range, selected_ratings, selected_categories):
         """
         Filter the DataFrame based on the selected filters.
