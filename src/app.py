@@ -23,7 +23,7 @@ cache.init_app(
 server = app.server
 
 # Load the data
-df = load_data("data/preprocessed/clean_data_score.parquet")
+df = load_data("data/preprocessed/clean_data_score_1000.parquet")
 
 # Create the layout
 app.layout = create_layout(df)

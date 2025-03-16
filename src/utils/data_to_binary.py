@@ -4,8 +4,8 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-csv_file = 'data/preprocessed/clean_data_score.csv'
-parquet_file = 'data/preprocessed/clean_data_score.parquet'
+csv_file = '../../data/preprocessed/clean_data_score_1000.csv'
+parquet_file = '../../data/preprocessed/clean_data_score_1000.parquet'
 chunksize = 100_000
 
 csv_stream = pd.read_csv(csv_file, chunksize=chunksize, low_memory=False)
