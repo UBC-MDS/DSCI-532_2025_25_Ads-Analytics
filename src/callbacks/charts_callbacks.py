@@ -9,7 +9,7 @@ from src.charts.make_density_plot import make_density_plot
 from src.charts.ranking_chart import create_wordcloud
 from src.charts.make_popularity_score import make_popularity_score
 
-#from src.utils.cache import cache
+from src.utils.cache import cache
 
 def register_charts_callbacks(app, df):
     """
@@ -20,7 +20,7 @@ def register_charts_callbacks(app, df):
     df (pd.DataFrame): The DataFrame containing the data.
     """
 
-    #@cache.memoize()
+    @cache.memoize()
     def filter_dataframe(selected_types, rating_range, selected_ratings, selected_categories):
         """
         Filter the DataFrame based on the selected filters.
@@ -37,12 +37,12 @@ def register_charts_callbacks(app, df):
             selected_categories = selected_categories[:4]
 
         min_rating, max_rating = rating_range
-        filtered_df = df[
-            (df["Type"].isin(selected_types)) &
-            (df["Rating"] >= min_rating) & (df["Rating"] <= max_rating) &
-            (df["Content Rating"].isin(selected_ratings)) &
-            (df["Category"].isin(selected_categories))
-        ]
+        filtered_df = df.query(
+            "Type in @selected_types & "
+            "@min_rating <= Rating <= @max_rating & "
+            " `Content Rating` in @selected_ratings & "
+            "Category in @selected_categories"
+        )
         return filtered_df
 
     @app.callback(
