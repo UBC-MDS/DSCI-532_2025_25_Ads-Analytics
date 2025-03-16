@@ -32,7 +32,16 @@ def create_pie(df, categories):
 
     pie_chart = alt.Chart(category_counts).mark_arc().encode(
         theta=alt.Theta(field="Count", type="quantitative"),  
-        color=alt.Color("Category:N", scale=alt.Scale(domain=list(category_to_color.keys()), range=list(category_to_color.values())), legend=None),
+        color=alt.Color("Category:N", 
+                        scale=alt.Scale(domain=list(category_to_color.keys()), 
+                                        range=list(category_to_color.values())
+                                        ),
+                        legend=alt.Legend(
+                            title="Category",  
+                            titleFontSize=16,  
+                            labelFontSize=14,  
+                            symbolSize=200, 
+                        )),
         tooltip=[alt.Tooltip(field="Category", type="nominal"), 
                  alt.Tooltip(field="Count", type="quantitative"), 
                  alt.Tooltip(field="Percentage", type="quantitative", title="Percentage", format=".1f")]
@@ -51,6 +60,6 @@ def create_pie(df, categories):
     pie_chart = pie_chart+pie_chart_with_labels
     
     final_chart = pie_chart.encode(
-    text=alt.Text(field="Percentage", type="quantitative", format=".1f")  # Add '%' symbol to the labels
+    text=alt.Text(field="Percentage", type="quantitative", format=".1f")  
 )
     return final_chart

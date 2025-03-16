@@ -80,10 +80,10 @@ def create_layout(df):
                             ]),
                             dbc.Row([
                                 dbc.Col(density_plot, md=6),
-                                dbc.Col(wordcloud_chart, md=6)
+                                dbc.Col(pie_chart, md=6)
                             ]),
                             dbc.Row([
-                                dbc.Col(pie_chart, md=6)
+                                dbc.Col(wordcloud_chart, md=6)
                             ])
                         ])
                     ], style={"backgroundColor": "#f8f9fa", "paddingTop": "10px", "paddingBottom": "10px"}), md=12)
