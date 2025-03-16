@@ -84,13 +84,18 @@ def popularity_histogram_component(df):
                 className="fw-bold text-center bg-light border-bottom border-secondary"
             ),
             dbc.CardBody(
-                dvc.Vega(
-                    id="popularity-histogram",
-                    spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
-                    style={
-                        "width": "100%",
-                        "height": "100%" 
-                    }
+                dcc.Loading(  # Add loading indicator
+                id="loading-density-plot",
+                children=[
+                    dvc.Vega(
+                        id="popularity-histogram",
+                        spec=make_popularity_score(df, ["All"]).to_dict(format="vega"),
+                        style={
+                            "width": "100%",
+                            "height": "100%" 
+                        }
+                    )
+                ]
                 ),
                 className="d-flex align-items-center justify-content-center p-0" 
             )
