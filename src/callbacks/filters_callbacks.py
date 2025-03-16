@@ -10,6 +10,30 @@ def register_filters_callbacks(app):
     app (Dash): The Dash app instance.
     """
 
+    # @app.callback(
+    #     Output("category-filter", "value"),
+    #     Input("category-filter", "value"),
+    #     prevent_initial_call=True
+    # )
+    # def update_category_selection(selected_categories):
+    #     """
+    #     Ensures that selecting 'All' in Category filter disables other selections and vice versa.
+
+    #     Parameters:
+    #     selected_types (list): Selected app types.
+
+    #     Returns:
+    #     list: Updated selected app types.
+    #     """
+    #     if any(type_ != "All" for type_ in selected_categories):
+    #         # If any type other than "All" is selected, clear "All" from the selection
+    #         return [type_ for type_ in selected_categories if type_ != "All"]
+    #     else:
+    #         # If only "All" is selected, return ["All"]
+    #         return ["All"]
+    #     return selected_categories
+
+
     @app.callback(
         Output("app-type-filter", "value"),
         Input("app-type-filter", "value"),
