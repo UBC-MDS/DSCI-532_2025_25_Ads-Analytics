@@ -6,6 +6,7 @@ from src.charts.engagement_chart import engagement_chart
 from src.charts.make_density_plot import make_density_plot
 from src.charts.ranking_chart import create_wordcloud 
 from src.charts.make_popularity_score import make_popularity_score
+from src.charts.pie_chart import create_pie
 #from src.charts.install_chart import installs_chart
 
 # def install_chart_component(df):
@@ -112,3 +113,22 @@ def wordcloud_component(df):
     className="shadow-sm h-100 border-0 rounded")
 
     return wordcloud_chart
+
+def pie_chart_component(df):
+    make_pie_chart = dbc.Card([
+        dbc.CardHeader('Pie Chart for Top Apps', 
+                       className="fw-bold text-center bg-light border-bottom border-secondary"),
+        dbc.CardBody(
+            dvc.Vega(
+            id="pie-chart",
+            spec=create_pie(df, ["All"]).to_dict(format="vega"),
+            style={'width': '100%',
+                   'height': '100%' 
+                   }
+            ),
+            className="d-flex align-items-center justify-content-center p-0"
+            )
+    ],
+    className="shadow-sm h-100 border-0 rounded")
+
+    return make_pie_chart
