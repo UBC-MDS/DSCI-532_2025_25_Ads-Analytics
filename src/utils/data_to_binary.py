@@ -4,7 +4,7 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-csv_file = 'data/preprocessed/clean_data_score.csv'
+csv_file = 'data/preprocessed/sampled_clean_data.csv'
 parquet_file = 'data/preprocessed/clean_data_score.parquet'
 chunksize = 100_000
 
