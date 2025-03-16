@@ -7,7 +7,8 @@ from src.components.get_summary_stats import get_summary_stats
 from src.components.chart_components import (engagement_chart_component, 
                                              density_plot_component, 
                                              popularity_histogram_component, 
-                                             wordcloud_component)
+                                             wordcloud_component,
+                                             pie_chart_component)
 from src.components.footer_components import footer_component
 
 
@@ -23,6 +24,7 @@ def create_layout(df):
     make_engagement_chart = engagement_chart_component(df)
     density_plot = density_plot_component(df)
     wordcloud_chart = wordcloud_component(df)
+    pie_chart = pie_chart_component(df)
 
     # Footers
     footer = footer_component()
@@ -79,6 +81,9 @@ def create_layout(df):
                             dbc.Row([
                                 dbc.Col(density_plot, md=6),
                                 dbc.Col(wordcloud_chart, md=6)
+                            ]),
+                            dbc.Row([
+                                dbc.Col(pie_chart, md=6)
                             ])
                         ])
                     ], style={"backgroundColor": "#f8f9fa", "paddingTop": "10px", "paddingBottom": "10px"}), md=12)

@@ -8,6 +8,7 @@ from src.components.get_summary_stats import get_summary_stats
 from src.charts.make_density_plot import make_density_plot
 from src.charts.ranking_chart import create_wordcloud
 from src.charts.make_popularity_score import make_popularity_score
+from src.charts.pie_chart import create_pie
 
 from src.utils.cache import cache
 
@@ -51,6 +52,7 @@ def register_charts_callbacks(app, df):
          Output("engagement-chart", "spec"),
          Output("density-plot", "spec"),
          Output("wordcloud", "figure"),
+         Output("pie-chart", "spec"),
          Output("mean-rating", "children"),
          Output("mean-reviews", "children"),
          Output("mean-installs", "children"),
@@ -111,6 +113,7 @@ def register_charts_callbacks(app, df):
             engagement_chart(filtered_df, updated_categories).to_dict(format="vega"),
             make_density_plot(filtered_df, updated_categories).to_dict(format="vega"),
             create_wordcloud(filtered_df, updated_categories),
+            create_pie(filtered_df, updated_categories).to_dict(format="vega"),
             f"{stats['mean_rating']:.2f}",
             f"{stats['mean_reviews']:,.0f}",
             f"{stats['mean_installs']:,.0f}",
