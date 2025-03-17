@@ -40,13 +40,17 @@ def engagement_chart(df, categories):
 
     chart = alt.Chart(top_apps).mark_circle(size=75).encode(
         x=alt.X("Reviews:Q", title="Number of Reviews",
-                scale=alt.Scale(domain=[top_apps["Reviews"].min(), top_apps["Reviews"].max()])),
+                scale=alt.Scale(domain=[top_apps["Reviews"].min(), top_apps["Reviews"].max()]),
+                axis=alt.Axis(format="~s")),
         y=alt.Y("Installs:Q", title="Total Installs",
-                scale=alt.Scale(domain=[top_apps["Installs"].min(), top_apps["Installs"].max()])),  
+                scale=alt.Scale(domain=[top_apps["Installs"].min(), top_apps["Installs"].max()]),
+                axis=alt.Axis(format="~s")),  
         color=alt.Color("Category:N", title="Category",
                         scale=alt.Scale(domain=list(category_to_color.keys()), 
                                         range=list(category_to_color.values()))),  
-        opacity=alt.condition(selection, alt.value(0.8), alt.value(0.2)), 
+        opacity=alt.condition(selection, alt.value(0.8), alt.value(0.2)),
+        size=alt.Size("Rating:Q", title="Rating",
+                  scale=alt.Scale(domain=[top_apps["Rating"].min(), top_apps["Rating"].max()], range=[50, 500])),  
         tooltip=["App", "Category", alt.Tooltip("Installs:Q", title="Total Installs"),
                  alt.Tooltip("Reviews:Q", title="Total Reviews"), "Rating"]
     ).properties(

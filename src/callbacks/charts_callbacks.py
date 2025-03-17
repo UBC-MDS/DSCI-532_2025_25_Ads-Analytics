@@ -44,6 +44,23 @@ def register_charts_callbacks(app, df):
             (df["Category"].isin(selected_categories))
         ]
         return filtered_df
+    
+    def update_category_filter(selected_category):
+        """
+        Ensures that selecting 'All' in Category filter disables other selections and vice versa.
+        
+        Parameters:
+        selected_category (list): Selected categories.
+
+        Returns:
+        list: Updated selected categories.
+        """
+        if any(cat != "All" for cat in selected_category):
+            # If any category other than "All" is selected, remove "All"
+            return [cat for cat in selected_category if cat != "All"]
+        else:
+            # If only "All" is selected, return ["All"]
+            return ["All"]
 
     @app.callback(
         [Output("filters-store", "data"),  # Store the filter values in dcc.Store
@@ -99,10 +116,8 @@ def register_charts_callbacks(app, df):
         # Calculate mean statistics
         stats = get_summary_stats(filtered_df)
 
-        # Determine if "All" should remain selected
-        updated_categories = (
-            ["All"] if len(selected_categories) == len(df["Category"].unique()) else selected_categories
-        )
+        # Ensure "All" is handled correctly for categories
+        updated_categories = update_category_filter(selected_categories)
 
         # Return updated components
         return (
