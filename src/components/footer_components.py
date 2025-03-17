@@ -2,7 +2,9 @@ from dash import html
 import dash_bootstrap_components as dbc
 
 def footer_component():
-    # Make footer
+    """
+    Creates a footer that describes the dashboard and authors."
+    """
     footer = dbc.Row(dbc.Col([
         html.Hr(),
         html.H6('This dashboard helps advertisement companies identify the most promising Google Play Store apps for ad placements by analyzing app metrics such as user engagement and ratings',
