@@ -136,15 +136,20 @@ def pie_chart_component(df):
         dbc.CardHeader('Pie Chart for Top Apps', 
                        className="fw-bold text-center bg-light border-bottom border-secondary"),
         dbc.CardBody(
-            dvc.Vega(
-            id="pie-chart",
-            spec=create_pie(df, ["All"]).to_dict(format="vega"),
-            style={'width': '100%',
-                   'height': '100%' 
-                   }
-            ),
+            dcc.Loading(  # Add loading indicator
+                id="loading-wordcloud",
+                children=[
+                    dvc.Vega(
+                    id="pie-chart",
+                    spec=create_pie(df, ["All"]).to_dict(format="vega"),
+                    style={'width': '100%',
+                        'height': '100%' 
+                        }
+                    )
+                    ],
             className="d-flex align-items-center justify-content-center p-0"
-            )
+            ),
+        )
     ],
     className="shadow-sm h-100 border-0 rounded")
 

@@ -20,6 +20,7 @@
 ### What the Dashboard Does Well:
 
 ### Limitations or Areas for Improvement:
-
+- Troubleshooting render deployment proved abotive, hence we still have soe unresponsive charts when deployed
 
 ### Potential Future Improvements or Additions:
+- Deploy to another host service
