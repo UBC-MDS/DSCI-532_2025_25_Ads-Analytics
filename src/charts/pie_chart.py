@@ -46,7 +46,7 @@ def create_pie(df, categories):
                  alt.Tooltip(field="Count", type="quantitative"), 
                  alt.Tooltip(field="Percentage", type="quantitative", title="Percentage", format=".1f")]
     ).properties(
-        title="App Count per Category",
+        # title="App Count per Category",
         height=350,
         width=300
     )
@@ -54,9 +54,10 @@ def create_pie(df, categories):
     pie_chart_with_labels = pie_chart.mark_arc().encode(
         text=alt.Text(field="Percentage", type="quantitative", format=".1f"),  
         size=alt.value(100),  
-    ).properties(
-        title="App Count per Category with Percentage"
     )
+    # .properties(
+    #     title="App Count per Category with Percentage"
+    # )
     pie_chart = pie_chart+pie_chart_with_labels
     
     final_chart = pie_chart.encode(

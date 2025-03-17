@@ -56,7 +56,7 @@ def make_density_plot(df, categories):
         color=alt.Color('Category:N' if len(categories) <= 4 else alt.value('steelblue'), scale=alt.Scale(domain=list(category_to_color.keys()), range=list(category_to_color.values())),legend=None)
     ).properties(
         height=350,
-        width=300
+        width=400
         # title = "Ratings for each Category"
     )
 

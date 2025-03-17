@@ -13,7 +13,40 @@ from src.components.footer_components import footer_component
 
 
 def create_layout(df):
-    # Filters
+    """
+    Generates the complete layout for the Sales Analytics Dashboard.
+
+    This function initializes the dashboard structure by organizing:
+    - Filters for user interaction.
+    - Summary statistics.
+    - Various interactive charts for data visualization.
+    - A footer section with additional information.
+
+    Parameters:
+    -----------
+    df : pandas.DataFrame
+        The dataset containing app-related information, including installs, 
+        ratings, categories, and customer engagement data.
+
+    Returns:
+    --------
+    dbc.Container
+        A Dash Bootstrap Container with the following sections:
+        - Global Filters (app type, ratings, content rating, and category filters).
+        - Summary Statistics Cards displaying key metrics.
+        - Multiple interactive charts:
+            - Popularity Histogram
+            - Engagement Chart (Reviews vs Installs)
+            - Density Plot (Rating Distribution)
+            - Word Cloud of Top Apps
+            - Pie Chart (Category Distribution)
+        - Footer Section containing additional details.
+
+    Example Usage:
+    --------------
+    app.layout = create_layout(df)
+    """
+
     global_filters = create_global_filters(df)
 
     # Summary cards
@@ -83,7 +116,7 @@ def create_layout(df):
                                 dbc.Col(pie_chart, md=6)
                             ]),
                             dbc.Row([
-                                dbc.Col(wordcloud_chart, md=6)
+                                dbc.Col(wordcloud_chart, md=12)
                             ])
                         ])
                     ], style={"backgroundColor": "#f8f9fa", "paddingTop": "10px", "paddingBottom": "10px"}), md=12)
