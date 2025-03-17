@@ -54,9 +54,10 @@ def create_pie(df, categories):
     pie_chart_with_labels = pie_chart.mark_arc().encode(
         text=alt.Text(field="Percentage", type="quantitative", format=".1f"),  
         size=alt.value(100),  
-    ).properties(
-        title="App Count per Category with Percentage"
     )
+    # .properties(
+    #     title="App Count per Category with Percentage"
+    # )
     pie_chart = pie_chart+pie_chart_with_labels
     
     final_chart = pie_chart.encode(
