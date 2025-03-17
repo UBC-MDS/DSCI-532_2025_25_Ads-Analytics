@@ -11,7 +11,7 @@
 
 
 ## 3. Differences from Proposal/Sketch
-
+In our proposal, we initially included basic visualizations such as density plots and histograms. However, in the final dashboard, we incorporated more advanced charts, including word clouds, box plots, pie charts, scatter plots, and bar charts. This deviation from our original plan allowed us to provide a more comprehensive and in-depth visual analysis of various apps and categories in the Google Play Store.
 
 ## 4. Corner Cases or Unresolved Issues
 - Filters are still not working on render.com (out of memory error)
