@@ -46,7 +46,7 @@ def create_pie(df, categories):
                  alt.Tooltip(field="Count", type="quantitative"), 
                  alt.Tooltip(field="Percentage", type="quantitative", title="Percentage", format=".1f")]
     ).properties(
-        title="App Count per Category",
+        # title="App Count per Category",
         height=350,
         width=300
     )

@@ -137,7 +137,7 @@ def pie_chart_component(df):
                        className="fw-bold text-center bg-light border-bottom border-secondary"),
         dbc.CardBody(
             dcc.Loading(  # Add loading indicator
-                id="loading-wordcloud",
+                id="loading-pie-chart",
                 children=[
                     dvc.Vega(
                     id="pie-chart",
