@@ -3,6 +3,35 @@ import dash_bootstrap_components as dbc
 from src.data.data_import import get_dropdown_options
 
 def create_global_filters(df):
+    """
+    Creates a set of global filter components for the dashboard.
+
+    This function generates a collection of dropdowns, sliders, and other UI 
+    elements that allow users to filter the dataset dynamically based on 
+    criteria such as app type, rating, content rating, and category.
+
+    Parameters:
+    -----------
+    df : pandas.DataFrame
+        The dataset containing app-related information, including type, rating, 
+        content rating, and categories.
+
+    Returns:
+    --------
+    dbc.Card
+        A Dash Bootstrap Card containing:
+        - A dropdown for selecting app type (Free/Paid).
+        - A slider for filtering by rating.
+        - A dropdown for selecting content rating.
+        - A multi-select dropdown for filtering by app category.
+        - Proper layout and styling for ease of use.
+
+    Example Usage:
+    --------------
+    app.layout = dbc.Container([
+        create_global_filters(df)
+    ])
+    """
     return [
         dbc.Col([
             html.H1([
